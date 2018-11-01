@@ -8,17 +8,17 @@ $(function () {
     $.idcode.setCode();
 });
 
-
 /**
  *@desc 验证码验证
  *@date 2018/10/09 14:50:33
  *@author zhangziteng
  */
+
 (function check($) {
     var settings = {
         e: 'idcode',
         codeType: {name: 'follow', len: 4},//len是修改验证码长度的
-        // codeTip: '<img class="F5" src="../img/f5.png " />',
+        codeTip: '<img class="F5" src="../../images/f5.png" />',
         inputID: 'captchac'//验证元素的ID
     };
 
@@ -47,7 +47,8 @@ $(function () {
             } else {
                 inputV = $(_set.store).val();
             }
-            if (inputV.toUpperCase() == _storeData(_set.storeLable, null).toUpperCase()) {//修改的不区分大小写
+            if (inputV.toUpperCase() == _storeData(_set.storeLable, null).toUpperCase()) {
+                //修改的不区分大小写
                 return true;
             } else {
                 _setCodeStyle("#" + settings.e, settings.codeType.name, settings.codeType.len);
@@ -78,14 +79,14 @@ $(function () {
         }
         htmlCode += '<div id="ehong-code" class="ehong-idcode-val ehong-idcode-val';
         htmlCode += String(randNum);
-        htmlCode += '" href="#" onblur="return false" onfocus="return false" oncontextmenu="return false" onclick="$.idcode.setCode()">' + _setStyle(codeObj) + '</div>' + '<span id="ehong-code-tip-ck" class="ehong-code-val-tip" onclick="$.idcode.setCode()">' + settings.codeTip + '</span>';
+        htmlCode += '" href="#" onblur="return false" onfocus="return false" oncontextmenu="return false" onclick="$.idcode.setCode()">' + _setStyle(codeObj) + '</div>';
         $(eid).html(htmlCode);
         _storeData(_set.storeLable, codeObj);
     }
 
     function _setStyle(codeObj) {
-        var fnCodeObj = new Array();
-        var col = new Array('#BF0C43', '#E69A2A', '#707F02', '#18975F', '#BC3087', '#73C841', '#780320', '#90719B', '#1F72D8', '#D6A03C', '#6B486E', '#243F5F', '#16BDB5');
+        var fnCodeObj = [];
+        var col = ['#BF0C43', '#E69A2A', '#707F02', '#18975F', '#BC3087', '#73C841', '#780320', '#90719B', '#1F72D8', '#D6A03C', '#6B486E', '#243F5F', '#16BDB5'];
         var charIndex;
         for (var i = 0; i < codeObj.length; i++) {
             charIndex = Math.floor(Math.random() * col.length);
@@ -108,7 +109,7 @@ $(function () {
 
     function _createCodeCalc(codeLength) {
         var code1, code2, codeResult;
-        var selectChar = new Array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
+        var selectChar = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
         var charIndex;
         for (var i = 0; i < codeLength; i++) {
             charIndex = Math.floor(Math.random() * selectChar.length);
@@ -122,7 +123,7 @@ $(function () {
 
     function _createCodeFollow(codeLength) {
         var code = "";
-        var selectChar = new Array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
+        var selectChar = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 
         for (var i = 0; i < codeLength; i++) {
             var charIndex = Math.floor(Math.random() * selectChar.length);
@@ -136,3 +137,111 @@ $(function () {
     }
 
 })(jQuery);
+
+/**
+ *@desc 登录验证
+ *@date 2018/10/22 21:19:49
+ *@author zhangziteng
+ */
+$("#login-button-adminlogin").click(function () {
+    // window.location.href = "../../pages/default/default.html"
+    var username = $("#login-input-username").val();
+    var password = $("#login-input-password").val();
+    $.ajax({
+        url: AJAX_URL.adminLogin,
+        type: requestJson ? 'get' : 'post',
+        data: {
+            "userAccount": username,
+            "userPassword": password
+        },
+        dataType: "json",
+        // contentType: "application/json;charset=utf-8",
+        success: function (result) {
+            if (result.ok) {
+                // if (result.data.userrole === '1'){
+                //     sessionStorage.setItem("user-info", JSON.stringify({
+                //         "userrole": result.data.userrole
+                //     }));
+                //     window.location.href = '../default/default.html';
+                // } else {
+                //     alert("非管理员用户禁止登陆！");
+                //     return
+                // }
+                // // alert(data.message);
+                sessionStorage.setItem("user-info", JSON.stringify({
+                            "userrole": result.data.userrole
+                        }));
+                window.location.href = '../default/default.html';
+            } else {
+                alert(result.message);
+            }
+        }
+    });
+});
+// /**
+//  *@desc * 注册模态框 验证准考证号
+//  *       * 若验证成功 下面的文本框才可以输入
+//  *@date 2018/10/22 21:20:07
+//  *@author zhangziteng
+//  */
+// $("#regist-input-examinationnumber").blur(function () {
+//     var quasiExaminationNumber = $("#regist-input-examinationnumber").val();
+//     if (quasiExaminationNumber != "") {
+//         $.ajax({
+//             url: AJAX_URL.checkExaminationNumber,
+//             type: "post",
+//             data: {
+//                 "quasiExaminationNumber": quasiExaminationNumber
+//             },
+//             dataType: "json",
+//             success: function (data) {
+//                 if (data.ok) {
+//                     alert(data.message);
+//                     $("#regist-input-username").attr("disabled", false);
+//                     $("#regist-input-password").attr("disabled", false);
+//                     $("#regist-input-email").attr("disabled", false);
+//                     $("#regist-input-phonenumber").attr("disabled", false);
+//                     $("#regist-input-verfication").attr("disabled", false);
+//                 } else {
+//                     alert(data.message);
+//                 }
+//             }
+//         });
+//     } else {
+//     }
+//     ;
+// });
+// /**
+//  *@desc 注册按钮
+//  *@date 2018/10/22 21:20:28
+//  *@author zhangziteng
+//  */
+// $("#regist-button-userreg").click(function () {
+//     var quasiExaminationNumber = $("#regist-input-examinationnumber").val();
+//     var userAccount = $("#regist-input-username").val();
+//     var userPassword = $("#regist-input-password").val();
+//     var email = $("#regist-input-email").val();
+//     var phoneNumber = $("#regist-input-phonenumber").val();
+//     $.ajax({
+//         url: AJAX_URL.userRegist,
+//         type: 'post',
+//         data: JSON.stringify({
+//
+//             "examineeinformationEO": {
+//                 "email": email,
+//                 "phonenumber": phoneNumber,
+//                 "quasiexaminationnumber": quasiExaminationNumber
+//             },
+//             "userinformationEO": {
+//                 "useraccount": userAccount,
+//                 "userpassword": userPassword
+//             }
+//         }),
+//         dataType: "json",
+//         contentType: "application/json;charset=utf-8",
+//         success: function (data) {
+//             alert(data.message);
+//         }
+//     });
+// });
+

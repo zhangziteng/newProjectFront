@@ -34,7 +34,20 @@ const POP_TIP = {
     completeInfo: '请完善信息',//by qitian
     checkInfo: '请核对信息',//,by qitian
     confirm: '您确定执行此操作吗？',
-    choiceOne: '请选择一条选项'
+    choiceOne: '请选择一条选项', //by 刘志杰
+    choiceOnlyOne: '只能选择一条选项', //by 刘志杰
+    selectInputNotNull: "请输入要查询的内容",//by 刘志杰
+    selectChoiceNotNull: "请选择要查询的内容",//by 刘志杰
+    offlineTimeNotNull: "请选择下线时间",//by 刘志杰
+    publishSuccess: "发布成功",//by 刘志杰
+    selectFail:"查询失败", //by 刘志杰
+    matriculateSuccess:"录入成功", //by 刘志杰
+
+
+
+
+
+    repeat: '重复！！！' //by yueben
 };
 
 /**
@@ -46,7 +59,11 @@ const POP_TIP = {
  */
 const INPUT_ALERT = {
     account: '请输入字母或数字，长度限制为4-15',//by qitian
-    notNull: '此项不可为空'//by qitian
+    notNull: '此项不可为空',//by qitian
+    IDNumber: '身份证格式不正确',//by qitian
+    mobilePhoneModify:'电话号码不正确',//zhangziteng
+    address:'地址信息'//zhangziteng
+
 };
 
 /**
@@ -66,6 +83,7 @@ const REGEX = {
     IDNumber: /^\d{6}(18|19|20)?\d{2}(0[1-9]|1[012])(0[1-9]|[12]\d|3[01])\d{3}(\d|[X])$/, //身份证号码
     IDNumber2: /^[0-9a-zA-Z]{,18}*$/g, //身份证号码，仅控制位数不能超过18位
     account: /^[a-zA-Z][a-zA-Z0-9_]{4,15}$/,
+    // address:/^{0,30}$/,
     password: /^[A-Za-z0-9][a-zA-Z0-9_]{5,20}$/, //验证密码，数字、字母、下划线，不少于5位
     strongPassword: /^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,10}$/,
     specialChar: /[@#\$%\^&\*]+/g, //特殊字符，可以扩充
@@ -84,25 +102,41 @@ const AJAX_URL = {
     loginLog: requestJson ? '../../jsonDatas/loginLog.json' : '',
     knowledgeData: requestJson ? '../../jsonDatas/knowledgeData.json' : '',
     /**
-     *@desc 问题反馈数据
-     *@date 2018/09/27 09:22:00
+     *@desc 修改密码
+     *@date 2018/10/22 21:13:59
      *@author zhangziteng
      */
-    reportProblem: requestJson ? '../../jsonDatas/reportProblem.json' : '',
-    allProblemData: requestJson ? '../../jsonDatas/allProblemData.json' : '',
-    checkAllProblemData: requestJson ? '../../jsonDatas/checkAllProblemData.json' : '',
+    updatePassword: requestJson ? '' : requestUrl + "api/generate/userinformation",
+    checkPassword: requestJson ? '' : requestUrl + 'api/generate/userinformation/checkOldPassword',
     /**
      *@desc 招生计划数据
      *@date 2018/10/10 10:29:51
      *@author zhangziteng
      */
     recruitPlanData: requestJson ? '../../jsonDatas/recruitPlanData.json' : '',
-    //经销商管理 刘志杰 2018-09-25
-    distributorData: requestJson ? '../../jsonDatas/distributorData.json' : '',
-    //系统设置-答疑设置（预警列表） 刘志杰 2018-09-28
-    answerSetting: requestJson ? '../../jsonDatas/answerSetting.json' : '',
-    //用户管理 刘志杰 2018-09-28
-    userManage: requestJson ? '../../jsonDatas/userData.json' : '',
+
+    /*==============================用户管理=========================================*/
+    //用户管理(分页查询) 刘志杰 2018-10-09
+    selectUserManag: requestJson ? '../../jsonDatas/userData.json' : requestUrl + "api/generate/userinformation/queryUserInfoByPage",
+    //用户管理(删除) 刘志杰 2018-10-09
+    deleteUserManage: requestJson ? '' : requestUrl + "api/generate/userinformation/deleteUserInfo",
+    //用户管理(新增) 刘志杰 2018-10-09
+    insertUserManage: requestJson ? '' : requestUrl + "api/generate/userinformation/createUserInfo",
+    //用户管理(修改) 刘志杰 2018-10-09
+    updateUserManage: requestJson ? '' : requestUrl + "api/generate/userinformation/updateUserInfo",
+    /*==============================发布管理=========================================*/
+    //发布管理(分页查询) 刘志杰 2018-10-10
+    selectReleaseManage: requestJson ? '../../jsonDatas/adminssionsDate.json' : '',
+    //发布管理(发布,即修改) 刘志杰 2018-10-10
+    updateReleaseManage: requestJson ? '../../jsonDatas/adminssionsDate.json' : '',
+    /*==============================录取管理=========================================*/
+    //录取管理(分页查询) 刘志杰 2018-10-11
+    selectMatriculate: requestJson ? '../../jsonDatas/matriculateData.json' : requestUrl + "api/generate/examineevolunteerinformation/page",
+    //录取管理 录取（修改） 刘志杰 2018-10-11
+    insertMatriculate: requestJson ? '../../jsonDatas/matriculateData.json' : requestUrl + 'api/generate/examineevolunteerinformation',
+    //录取管理 （个人详情） 刘志杰 2018-10-11
+    personalDetailsMatriculate: requestJson ? '../../jsonDatas/matriculateData.json' : requestUrl + 'api/generate/examineeinformation',
+
     /**
      *@desc 日志管理，答疑管理数据
      *@date 2018/09/27 09:23:06
@@ -120,6 +154,8 @@ const AJAX_URL = {
     personnelConfiguration: requestJson ? '../../jsonDatas/personnelConfiguration.json' : '',
     bomChange: requestJson ? '../../jsonDatas/bomChange.json' : '',
     administratorList: requestJson ? '../../jsonDatas/administratorList.json' : '',
+    //管理员登录 刘笑天 20181024
+    adminLogin: requestJson ? '../../jsonDatas/login.json' : requestUrl + 'api/generate/userinformation/userLogin',
     //崔雨鑫
     announceData: requestJson ? '../../jsonDatas/announceData.json' : '',
     announceDetailData: requestJson ? '../../jsonDatas/announceDetailData.json' : '',

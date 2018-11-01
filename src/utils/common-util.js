@@ -32,6 +32,30 @@ Date.prototype.Format = function (fmt) {
     }
 
 }
+/**
+ * 时间戳转时间
+ * 刘笑天 20181025 添加
+ * @param str
+ * @returns {string}
+ */
+function getMyDate(str) {
+    var oDate = new Date(str),
+        oYear = oDate.getFullYear(),
+        oMonth = oDate.getMonth() + 1,
+        oDay = oDate.getDate(),
+        oHour = oDate.getHours(),
+        oMin = oDate.getMinutes(),
+        oSen = oDate.getSeconds(),
+        oTime = oYear + '-' + getzf(oMonth) + '-' + getzf(oDay) + ' ' + getzf(oHour) + ':' + getzf(oMin) + ':' + getzf(oSen);//最后拼接时间
+    return oTime;
+}
+//时间戳转时间——补0操作
+function getzf(num){
+    if (parseInt(num) < 10) {
+        num = '0' + num;
+    }
+    return num;
+}
 
 /**
  * @Desc XSS攻击
@@ -451,10 +475,20 @@ let poptip;
             case 'text': default:
             warn = $(t_this).next('.alert-warn');
             if (value) {
-                if (regex && !REGEX[regex].test(value)) {
-                    warn.html(INPUT_ALERT.account);
-                    warn.show();
-                    return false;
+                if (regex) {
+                    regex = regex.replace(/\s+/g, ' ').split(' ');
+                    if (regex.length > 0) {
+                        for (let re of regex) {
+                            if (re && !REGEX[re].test(value)) {
+                                warn.html(INPUT_ALERT[re]);
+                                warn.show();
+                                return false;
+                            } else {
+                                warn.html('');
+                                warn.hide();
+                            }
+                        }
+                    }
                 } else {
                     warn.html('');
                     warn.hide();
@@ -497,10 +531,12 @@ let poptip;
                 break;
         }
 
-        $(_this).on('input',function() {
+        $(t_this).on('input',function() {
             warn.html('');
             warn.hide();
         })
+        //点击模态框保存按钮无反应问题 刘志杰 2018/10/19
+        return true;
     }
     /**
      * @Desc 表单输入，保存按钮验证
@@ -585,56 +621,6 @@ let poptip;
             }
         })
     });
-    /*可拖动模态框*/
-   /* $(function() {
-        let _move=false;//移动标记
-        let _x,_y;//鼠标离控件左上角的相对位置
-        let _dragZone = $(".drag-modal .modal-header");
-        let _dragBody = _dragZone.parent().parent().parent();
-        _dragZone.mousedown(function(e) {
-            $(this).attr("onselectstart", "return false"); //禁双击选中
-            $("body").css({"-webkit-user-select":"none", "-moz-user-select":"none", "-ms-user-select":"none", "-khtml-user-select":"none", "user-select":"none"}); //禁止选中文字
-            _move=true;
-            _x=e.pageX-parseInt(_dragBody.css("left"));
-            _y=e.pageY-parseInt(_dragBody.css("top"));
-            _dragBody.fadeTo(150, 0.5);
-        });
-        $(document).mousemove(function(e) {
-            if (_move) {
-                let x=e.pageX-_x;//移动时根据鼠标位置计算控件左上角的绝对位置
-                let y=e.pageY-_y;
-                if (e.pageX <= 0 || e.pageY <= 0) {
-                    _move=false;
-                }else {
-                    let pageW = $(window).width();
-                    let pageH = $(window).height();
-                    let dialogW = _dragBody.width();
-                    let dialogH = _dragBody.height() / 2;
-                    let maxX = pageW - dialogW;       //X轴可拖动最大值
-                    let maxY = pageH - dialogH;       //Y轴可拖动最大值
-                    let minX = dialogW - pageW;
-                    let minY = dialogH - pageH;
-                    x = Math.min(Math.max(minX,x),maxX);     //X轴可拖动范围
-                    y = Math.min(Math.max(minY,y),maxY);     //Y轴可拖动范围
-                    _dragBody.css({left:x, top:y});//控件新位置
-                }
-            }
-        }).mouseup(function() {
-            _move=false;
-            _dragBody.fadeTo("fast", 1);
-            $("body").removeAttr("style"); //移除不能选文字
-        });
-        $('.drag-modal').on('show.bs.modal', function () {
-            setTimeout(function() {
-                $('.modal-backdrop').each(function(index,item) {
-                    $(item).remove();
-                })
-                $('.modal-backdrop',parent.document).each(function(index,item) {
-                    $(item).remove();
-                })
-            },500)
-        });
-    });*/
 })()
 /**************************************************************工具方法结束*************************************************************/
 /**************************************************************公共方法*************************************************************/

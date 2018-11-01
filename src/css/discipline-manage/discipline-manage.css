@@ -1,11 +1,14 @@
 /**
-* @Desc 招生计划界面样式
-* @Date 2018年10月10日10:28:16
+* @Desc 专业管理界面样式
+* @Date 2018年10月11日09:43:16
 * @Author zhangziteng
 */
 body, html {
     background-color: #fff;
     height: 100%;
+}
+.form-group {
+    margin-bottom: 5px;
 }
 .page-header {
     padding-bottom: 11px;
@@ -50,7 +53,7 @@ body, html {
     float: left;
     margin-left: 5%;
 }
-.from-controller{
+.from-controller {
     /*display: block;*/
     /*width: 100%;*/
     height: 34px;
@@ -68,12 +71,3 @@ body, html {
 .th-inner {
     text-align: center;
 }
-
-.IsNull {
-    margin: 0% 0% 0% 35%;
-}
-
-/*.select-creatYear {*/
-    /*float: right;*/
-    /*margin: 2px 0 0 0;*/
-/*}*/
