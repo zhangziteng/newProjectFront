@@ -17,6 +17,7 @@ var LOGIN_INFO = {
 };
 $(function () {
     tableInit(SELECT_DISCIPLINE_URL,'');
+    $("#basicinfo-input-realname").select2();
 });
 
 /**
@@ -85,12 +86,37 @@ function tableInit(tableUrl,cond) {
             visible: true                  //是否显示复选框
         }, {
             field: 'majorname',
-            title: '专业名称',
-            width:500
-        }, {
+            title: '项目名称',
+            width:200
+        },{
+            field: 'majorname',
+            title: '项目类型',
+            width:200
+        },{
+            field: 'majorname',
+            title: '项目预算（元）',
+            width:200
+        },{
+            field: 'majorname',
+            title: '招募要求',
+            width:300
+        },{
+            field: 'majorname',
+            title: '相关文档',
+            width:200,
+            align: 'center',
+            valign: 'middle',
+            formatter:function(value,row,index){
+                    //通过formatter可以自定义列显示的内容
+                    //value：当前field的值，即id
+                    //row：当前行的数据
+                    let a = '<a href="#" onclick="openContinueModal()">下载</a>';
+                    return a;
+                }
+        },{
             field: 'createtime',
             title: '创建时间',
-            width:500,
+            width:100,
             formatter:function(value) {
                 if (value != null) {
                     return getMyDate(value);
@@ -164,7 +190,7 @@ $('#discipline-input-search').val('');
  */
 function AddDisciplineModal() {
     $("#add-input-discipline").val('');
-    $("#discipline-modal-title").html('<h3>创建专业名称</h3>');
+    $("#discipline-modal-title").html('<h3>创建项目</h3>');
 
 }
 
@@ -185,7 +211,7 @@ function AlterDisciplineModal() {
     }
 
 
-    $("#discipline-modal-title").html('<h3>修改专业名称</h3>');
+    $("#discipline-modal-title").html('<h3>修改项目</h3>');
     $("#add-input-discipline").val(checkboxTable[0].majorname);
     $("#add-input-key").val(checkboxTable[0].majorkey);
     $("#add-discipline-modal").modal("show");
