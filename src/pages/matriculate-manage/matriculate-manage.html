@@ -7,59 +7,41 @@
     <link rel="stylesheet" href="../../lib/bootstrap-table/bootstrap-table.min.css">
     <link rel="stylesheet" href="../../css/common/common.css"/>
     <link rel="stylesheet" href="../../css/matriculate-manage/matriculate-manage.css"/>
-    <title>录取管理</title>
+    <title>发布管理</title>
 </head>
 <body>
-<!--录取管理 刘志杰 2018-10-11-->
+<!--发布管理-->
 <ol class="breadcrumb">
     <li><a href="#">后台管理系统</a></li>
-    <li class="active">录取管理</li>
+    <li class="active">发布管理</li>
 </ol>
 <div class="content-box">
     <div class="page-header">
-        <h3>录取管理</h3>
+        <h3>发布管理</h3>
     </div>
     <div class="content-section">
         <div class="select-section">
             <form >
-                <div class="select-input" style="width: 1050px;">
+                <div class="select-input">
                     <label class="form-inline">
-                        <span>学校：</span>
-                        <input id="search-input-school" type="text" class="form-control"/>
+                        <span>项目名称：</span>
+                        <input id="search-input-school" type="text" class="form-control" placeholder="请输入项目名称"/>
                     </label>
-                    <label class="form-inline">
-                        <span>省份：</span>
-                        <input type="text" id="search-input-province" type="text" class="form-control"/>
-                    </label>
-                    <label class="form-inline">
-                        <span>状态：</span>
-                        <select id="search-select-status" class="form-control" style="width: 150px;">
-                            <option value="">全部</option>
-                            <option value="0">未录用</option>
-                            <option value="1">录用</option>
-                        </select>
-                    </label>
-                    <label class="form-inline">
-                        <span>分数：</span>
-                        <input type="text" id="search-input-score1" class="select-score form-control" style="width: 50px; margin-right: 8px">-
-                        <input type="text" id="search-input-score2" class="select-score form-control" style="width: 50px; margin-left: 8px">
-                    </label>
+                    <div class="select-btn">
+                        <input type="button" value="查询" class="btn btn-primary" onclick="selectMatriculate()"></button>
+                        <input type="reset" value="重置" class="btn"/>
+                    </div>
                 </div>
-                <div class="select-btn">
-                    <input type="button" value="查询" class="btn btn-primary" onclick="selectMatriculate()"></button>
-                    <input type="reset" value="重置" class="btn"/>
 
-                </div>
             </form>
+
         </div>
-        <hr>
+        </div>
+
         <div class="table-section">
-            <div class="matriculate-btn">
-                <button class="btn btn-primary" onclick="admssion()">录取</button>
-            </div>
             <table id="my-table"></table>
         </div>
-    </div>
+
 </div>
 <!--模态框（录取）-->
 <div class="modal fade drag-modal" id="matriculate-modal" data-backdrop="static">
