@@ -144,7 +144,7 @@ $(function () {
  *@author zhangziteng
  */
 $("#login-button-adminlogin").click(function () {
-    // window.location.href = "../../pages/default/default.html"
+    window.location.href = "../../pages/default/default.html"
     var username = $("#login-input-username").val();
     var password = $("#login-input-password").val();
     $.ajax({
