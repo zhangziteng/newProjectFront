@@ -62,8 +62,8 @@ function getSchAndMaj() {
 
 function tableInit(tableUrl,cond) {
     $('#plan-table-all').bootstrapTable({
-        url: tableUrl,
-        method: 'post',                      //请求方式（*）
+        url: AJAX_URL.recruitPlanData,
+        method: 'get',                      //请求方式（*）
         dataType: "json",
         //toolbar: '#toolbar',              //工具按钮用哪个容器
         striped: true,                      //是否显示行间隔色
@@ -74,7 +74,7 @@ function tableInit(tableUrl,cond) {
         sortName:'createtime',                //排序的数据字段名
         sortable: true,                     //是否启用排序
         sortOrder: "desc",                   //排序方式
-        sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
+        sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
         pageNumber: 1,                      //初始化加载第一页，默认第一页,并记录
         pageSize: 5,                     //每页的记录行数（*）
         pageList: [5, 10, 15],        //可供选择的每页的行数（*）
@@ -126,38 +126,44 @@ function tableInit(tableUrl,cond) {
             title: '序号',
             width:100,
             formatter: function (valve,row,index) {
-                return index+1;
+                return index + 1;
             }
         }, {
-            field: 'schoolname',
-            title: '学校名称',
-            width:300
-        }, {
-            field: 'provincename',
-            title: '省份',
-            width:300
-        },{
-            field: 'majorname',
-            title: '专业名称',
+            field: 'qyname',
+            title: '企业名称',
             width:200
         }, {
-            field: 'adminssionsnumber',
-            title: '招生人数',
+            field: 'xmname',
+            title: '项目名称',
+            width:200
+        },{
+            field: 'qyhy',
+            title: '项目行业',
+            width:200
+        }, {
+            field: 'xmys',
+            title: '项目预算',
             width:100
         }, {
-            field: 'createyear',
-            title: '年份',
+            field: 'jfzq',
+            title: '交付周期',
             width:100
         },{
-            field: 'createtime',
-            title: '创建时间',
+            field: 'xgwd',
+            title: '相关文档',
             width:300,
-            formatter: function (value,row,index) {
-                if (value != null) {
-                    return getMyDate(value);
-                }
-                return "-";
+            formatter: function (valve,row,index) {
+                let a = "<a href=''>下载</a>"
+                return a;
             }
+        },{
+            field: 'zmyq',
+            title: '招募要求',
+            width:300
+        },{
+            field: 'lxxx',
+            title: '联系信息',
+            width:300
         }
          ],
         onLoadSuccess: function (e) {
@@ -171,12 +177,11 @@ function tableInit(tableUrl,cond) {
         //客户端分页，需要指定到rows
         responseHandler: function(data) {
             console.log(data);
-            return {
-                "rows": data.data.list,
-                "total": data.data.count
-            }
-
-           // return data.data.list;
+            // return {
+            //     "rows": data.data.list,
+            //     "total": data.data.count
+            // }
+            return data.rows;
         }
     });
 }
@@ -235,7 +240,7 @@ function AlterPlanModal() {
         return;
     } else {
         selectInit("update");
-        $("#plan-modal-title").html('<h3>' + '修改招生计划' + '</h3>');
+        $("#plan-modal-title").html('<h3>' + '修改需求计划' + '</h3>');
         $("#add-update-input-PlanNum").val(checkboxTable[0].adminssionsnumber);
         $("#add-plan-modal").modal("show");
     }
@@ -247,7 +252,7 @@ function AlterPlanModal() {
  *@author yueben
  */
 function AddPlanModal() {
-    $("#plan-modal-title").html('<h3>' + '创建招生计划' + '</h3>');
+    $("#plan-modal-title").html('<h3>' + '创建需求计划' + '</h3>');
     selectInit("creat");
     $("#add-update-input-PlanNum").val("");
 
