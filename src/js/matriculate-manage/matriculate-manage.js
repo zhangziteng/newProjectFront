@@ -1,4 +1,4 @@
-/*录取管理 刘志杰 2018-10-11*/
+/*发布管理 */
 var examinee_condition = {} //条件查询的内容
 $(function () {
     tableInit(AJAX_URL.selectMatriculate);
@@ -8,7 +8,7 @@ $(function () {
 
 /**
  * @Desc 表格初始化
- * @Author 刘志杰
+ * @Author 宣文彬
  * @param tableUrl 表格中获取数据的url地址
  * @Date 2018-10-09
  */
@@ -73,49 +73,61 @@ function tableInit(tableUrl) {
             checkbox: true,
             visible: true               //是否显示复选框
         }, {
-            field: 'volunteerkey',
-            title: '志愿主键'
+            field: 'userKey',
+            title: '用户主键'
         }, {
-            field: 'examinationnumber',
-            title: '准考证号'
+            field: 'userAccount',
+            title: '用户账户'
         }, {
-            field: 'SchoolInformationEO.schoolname',
-            title: '学校名称'
+            field: 'realname',
+            title: '真实姓名'
         }, {
-            field: 'MajorInformationEO.majorname',
-            title: '专业名称',
+            field: 'mail',
+            title: '邮箱',
         }, {
-            field: 'declaretime',
-            title: '申报时间',
-            formatter: function (value) {
-                if (value != null) {
-                    return getMyDate(value);
-                }
-                return "-";
-            }
+            field: 'phone',
+            title: '手机号',
         }, {
-            field: 'volunteernumber',
-            title: '志愿编号',
+            field: 'location',
+            title: '所在地',
+        }, {
+            field: 'qqnumber',
+            title: 'QQ号',
+        },{
+            field:'projectName',
+            title:'项目名称',
+        },
+        // },{
+        //     field: 'declaretime',
+        //     title: '申报时间',
+        //     formatter: function (value) {
+        //         if (value != null) {
+        //             return getMyDate(value);
+        //         }
+        //         return "-";
+        //     }
+        // }, {
+         {
+            field: 'projectKey',
+            title: '项目主键',
 
-        }, {
-            field: 'ExamineeinformationEO.examineekey',
-            title: '学生信息主键',
-
-        }, {
-            field: 'ID',
-            title: '操作',
-            width: 120,
-            align: 'center',
-            valign: 'middle',
-            formatter: function (value, row, index) {
-                console.log(row)
-                //通过formatter可以自定义列显示的内容
-                //value：当前field的值，即id
-                //row：当前行的数据
-                let a = '<a href="#" onclick="personalDetails(' + row.ExamineeinformationEO.examineekey + ')">详情</a>';
-                return a;
-            }
-        }],
+        }
+            // {
+            // field: 'ID',
+            // title: '操作',
+            // width: 120,
+            // align: 'center',
+            // valign: 'middle',
+            // formatter: function (value, row, index) {
+            //     console.log(row)
+            //     //通过formatter可以自定义列显示的内容
+            //     //value：当前field的值，即id
+            //     //row：当前行的数据
+            //     let a = '<a href="#" onclick="personalDetails(' + row.ExamineeinformationEO.examineekey + ')">详情</a>';
+            //     return a;
+            // }
+        // }
+        ],
         onLoadSuccess: function (e) {
             // console.log(e)
         },
@@ -137,8 +149,8 @@ function tableInit(tableUrl) {
             }
         }
     });
-    $('#my-table').bootstrapTable('hideColumn', 'volunteerkey');
-    $('#my-table').bootstrapTable('hideColumn', 'ExamineeinformationEO.examineekey');
+    $('#my-table').bootstrapTable('hideColumn', 'userKey');
+    $('#my-table').bootstrapTable('hideColumn', 'projectKey');
 
 }
 
