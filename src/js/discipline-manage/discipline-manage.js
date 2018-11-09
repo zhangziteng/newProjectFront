@@ -123,23 +123,7 @@ function tableInit(tableUrl,cond) {
                 }
                 return "-";
             }
-        }
-            // ,{
-            //     field:'ID',
-            //     title: '操作',
-            //     width: 220,
-            //     align: 'center',
-            //     valign: 'middle',
-            //     formatter:function(value,row,index){
-            //         //通过formatter可以自定义列显示的内容
-            //         //value：当前field的值，即id
-            //         //row：当前行的数据
-            //         // let a = '<a href="#" onclick="openContinueModal()" data-target="#allproblem-continue" data-toggle="modal">继续提问</a>';
-            //         let b = '<a href="#" onclick="openAllModal()" id="check-allproblem" data-target="#allproblem" data-toggle="modal">修改</a>';
-            //         let c = '<a href="#" onclick="openDeleteModal()">删除</a>';
-            //         return b +'   '+ c;
-            //     }
-        ],
+        }],
         onLoadSuccess: function (e) {
             // console.log(e)
         },

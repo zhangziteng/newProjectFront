@@ -18,28 +18,36 @@
 <!--发布管理 刘志杰 2018-10-10 -->
 <div class="content-box">
     <div class="content-section">
-            <div class="h3">信息查询</div>
+            <div class="h3">发布需求</div>
         <hr>
             <div class="search-content">
                 <div class="search-head">
                     <form>
                         <div class="search-from form-group">
-                            <label>学校名称：</label>
+                            <label>企业名称：</label>
                             <input type="text" class="from-controller" name="SSK" id="select-input-schName" placeholder="请输入学校名称" aria-describedby="sizing-addon2">
                         </div>
                         <div  class="search-from form-group">
-                            <label>专业名称：</label>
+                            <label>项目名称：</label>
                             <input type="text" class="from-controller" name="SSK" id="select-input-majName" placeholder="请输入专业名称">
                         </div>
                         <div class="search-from form-group">
-                            <label>省份：</label>
-                            <input type="text" class="from-controller" name="SSK" id="select-input-proName" placeholder="请选择省份">
+                            <label>开发类型：</label>
+                            <select class="from-controller" id="" style="width: 180px;" >
+                                <option selected>请选择开发类型</option>
+                                <option>Web网站</option>
+                                <option>APP开发</option>
+                                <option>微信公众号</option>
+                                <option>小程序</option>
+                                <option>HTML5应用</option>
+                                <option>其他项目</option>
+                            </select>
                         </div>
                     </form>
                 </div>
                 <div class="search-submit">
-                    <button class="btn btn-primary" id="search-button" style="width: 37%;">搜索</button>
-                    <button class="btn" id="reset-button" style="width: 37%;">重置</button>
+                    <button class="btn btn-primary" id="search-button" style="width: 35%;">搜索</button>
+                    <button class="btn" id="reset-button" style="width: 35%;">重置</button>
                 </div>
             </div>
 

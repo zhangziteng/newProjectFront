@@ -82,45 +82,41 @@ function tableInit(tableUrl,cond) {
                 }
         },
         columns: [{
-            checkbox: true,
-            visible: true                  //是否显示复选框
-        },{
             field: 'schoolname',
-            title: '学校名称',
+            title: '企业名称',
             width:300
         }, {
             field: 'provincename',
-            title: '省份名称',
+            title: '企业资质',
             width:100
         }, {
             field: 'briefintroduction',
-            title: '简介',
+            title: '企业简介',
             width:300
         }, {
             field: 'phone',
-            title: '联系电话',
+            title: '联系信息',
             width:150
         },{
             field: 'address',
             title: '地址',
             width:300
-        }
-            // ,{
-            //     field:'ID',
-            //     title: '操作',
-            //     width: 220,
-            //     align: 'center',
-            //     valign: 'middle',
-            //     formatter:function(value,row,index){
-            //         //通过formatter可以自定义列显示的内容
-            //         //value：当前field的值，即id
-            //         //row：当前行的数据
-            //         // let a = '<a href="#" onclick="openContinueModal()" data-target="#allproblem-continue" data-toggle="modal">继续提问</a>';
-            //         let b = '<a href="#" onclick="openAllModal()" id="check-allproblem" data-target="#allproblem" data-toggle="modal">修改</a>';
-            //         let c = '<a href="#" onclick="openDeleteModal()">删除</a>';
-            //         return b +'   '+ c;
-            //     }
-        ],
+        }, {
+            field: 'ID',
+            title: '相关文档',
+            width: 220,
+            align: 'center',
+            valign: 'middle',
+            formatter: function (value, row, index) {
+                //通过formatter可以自定义列显示的内容
+                //value：当前field的值，即id
+                //row：当前行的数据
+                let a = '<a href="#">下载</a>';
+                // let b = '<a href="#" onclick="openAllModal()" id="check-allproblem" data-target="#allproblem" data-toggle="modal">修改</a>';
+                // let c = '<a href="#" onclick="openDeleteModal()">删除</a>';
+                return a;
+            }
+        }],
         onLoadSuccess: function (e) {
             // console.log(e);
         },

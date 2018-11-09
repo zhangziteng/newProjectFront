@@ -71,21 +71,33 @@ function tableInit(tableUrl,cond) {
             checkbox: true,
             visible: true               //是否显示复选框
         }, {
-            field: 'adminssionskey',
-            title: '招生编号'
+            field: 'xmname',
+            title: '项目名称',
+            width:200
+        },{
+            field: 'qyhy',
+            title: '项目行业',
+            width:200
         }, {
-            field: 'schoolname',
-            title: '学校名称'
+            field: 'xmys',
+            title: '项目预算',
+            width:100
         }, {
-            field: 'provincename',
-            title: '省份'
-        }, {
-            field: 'majorname',
-            title: '专业名称'
-        }, {
-            field: 'adminssionsnumber',
-            title: '招生人数'
-
+            field: 'jfzq',
+            title: '交付周期',
+            width:100
+        },{
+            field: 'xgwd',
+            title: '相关文档',
+            width:300,
+            formatter: function (valve,row,index) {
+                let a = "<a href=''>下载</a>"
+                return a;
+            }
+        },{
+            field: 'lxxx',
+            title: '联系信息',
+            width:300
         }, {
             field: 'createtime',
             title: '创建时间',
