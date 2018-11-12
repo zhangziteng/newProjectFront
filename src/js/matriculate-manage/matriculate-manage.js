@@ -152,6 +152,7 @@ function openModel() {
         poptip.alert(POP_TIP.choiceOne);
         $('#my-table').bootstrapTable("refresh");
         return 0;
+
     }
     console.log(checkboxTable);
     console.log(checkboxTable[0].status)

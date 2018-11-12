@@ -1,17 +1,16 @@
 
-var SELECT_ADMINPLAN_URL = requestUrl + "api/generate/adminssionsplaninformation/AdminssionsplaninformationVOPageAll"; //url地址 分页查询
-var DELETE_ADMINPLAN_URL = requestUrl + "api/generate/adminssionsplaninformation/deleteAdminssionsplaninformationVO"; //url地址 删除
-var INSERT_ADMINPLAN_URL = requestUrl + "api/generate/adminssionsplaninformation/createAdminssionsplaninformationVO"; //url地址 新增
-var UPDATE_ADMINPLAN_URL = requestUrl + "api/generate/adminssionsplaninformation/updateAdminssionsplaninformationVO"; //url地址 修改
-var SELECT_CONDITION_URL = requestUrl + "api/generate/adminssionsplaninformation/AdminssionsplaninformationVOPageBySMP"; //url地址 条件查询
-var SELECT_SCHOOLALL_URL = requestUrl + "api/generate/schoolinformation/querySchoolInfoByPage" //获取所有学校信息
-var SELECT_MAJOR_ALL_URL = requestUrl + "api/generate/majorinformation/queryMajorInfoByPage" //获取所有
+var SELECT_ADMINPLAN_URL = requestUrl + "api/generate/demandvolunteerinformation/selectDemandvolunteerinformation"; //url地址 分页查询
+var DELETE_ADMINPLAN_URL = requestUrl + "api/generate/demandvolunteerinformation/deleteDemandvolunteerinformation"; //url地址 删除
+var INSERT_ADMINPLAN_URL = requestUrl + "api/generate/demandvolunteerinformation/addDemandvolunteerinformation"; //url地址 新增
+var UPDATE_ADMINPLAN_URL = requestUrl + "api/generate/demandvolunteerinformation/updateDemandvolunteerinformation"; //url地址 修改
+var SELECT_COMPANYNAME_URL = requestUrl + "api/generate/companyinfo/queryByPage" //获取所有企业信息
+var SELECT_PROJECT_URL = requestUrl + "api/generate/projectinfo/queryByPage" //获取所有项目
 
 
 
-//获取学校信息和专业信息
-var SCH_ARR;
-var MAJ_ARR;
+//获取企业信息和项目信息
+var COM_ARR;
+var PRO_ARR;
 
 /**
  *@desc 招生计划初始化
@@ -24,31 +23,31 @@ $(function () {
 });
 
 /**
-* @Description:   _获取学校信息和专业信息
+* @Description:   _获取企业信息和项目信息
 * @Author:         yueben
 * @CreateDate:     2018/10/24 10:36
 */
 function getSchAndMaj() {
     $.ajax({
-        url: SELECT_SCHOOLALL_URL,
+        url: SELECT_COMPANYNAME_URL,
         type: 'post',
         contentType: 'application/json;charset=utf-8',
         dataType: 'json',
         data:JSON.stringify({}),
         success: function (data) {
-            SCH_ARR = data.data.list;
-            console.log(SCH_ARR);
+            COM_ARR = data.data.list;
+            console.log(COM_ARR);
         }
     });
     $.ajax({
-        url: SELECT_MAJOR_ALL_URL,
+        url: SELECT_PROJECT_URL,
         type: 'post',
         contentType: 'application/json;charset=utf-8',
         dataType: 'json',
         data: JSON.stringify({}),
         success: function (data) {
-            MAJ_ARR = data.data.list;
-            console.log(MAJ_ARR);
+            PRO_ARR = data.data.list;
+            console.log(PRO_ARR);
         }
     })
 }
@@ -62,8 +61,8 @@ function getSchAndMaj() {
 
 function tableInit(tableUrl,cond) {
     $('#plan-table-all').bootstrapTable({
-        url: AJAX_URL.recruitPlanData,
-        method: 'get',                      //请求方式（*）
+        url: tableUrl,
+        method: requestJson ? 'get' : 'post',    //请求方式（*）
         dataType: "json",
         //toolbar: '#toolbar',              //工具按钮用哪个容器
         striped: true,                      //是否显示行间隔色
@@ -72,12 +71,12 @@ function tableInit(tableUrl,cond) {
         // paginationHAlign:'center',       //分页水平位置
         //paginationDetailHAlign:"right",      //分页详细信息位置
         sortName:'createtime',                //排序的数据字段名
-        sortable: true,                     //是否启用排序
+        sortable: false,                     //是否启用排序
         sortOrder: "desc",                   //排序方式
-        sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
+        sidePagination: requestJson ? "client" : "server",           //分页方式：client客户端分页，server服务端分页（*）
         pageNumber: 1,                      //初始化加载第一页，默认第一页,并记录
-        pageSize: 5,                     //每页的记录行数（*）
-        pageList: [5, 10, 15],        //可供选择的每页的行数（*）
+        pageSize: 10,                     //每页的记录行数（*）
+        pageList: [10],        //可供选择的每页的行数（*）
         search: false,                      //是否显示表格搜索
         strictSearch: true,
         //showColumns: true,                  //是否显示所有的列（选择显示的列）
@@ -85,7 +84,7 @@ function tableInit(tableUrl,cond) {
         minimumCountColumns: 2,             //最少允许的列数
         clickToSelect: true,                //是否启用点击选中行
         //height: 500,                      //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
-        uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
+        uniqueId: "demandKey",                     //每一行的唯一标识，一般为主键列
         showToggle: false,                   //是否显示详细视图和列表视图的切换按钮
         cardView: false,                    //是否显示详细视图
         detailView: false,                  //是否显示父子表
@@ -99,25 +98,27 @@ function tableInit(tableUrl,cond) {
         queryParams : function (params) {
             //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
             var temp
-
-            if (cond == "all") {
+            if (cond == "condition") {
                 temp = {
-                    "pageSize": params.limit,                         //页面大小
-                    "page": (params.offset / params.limit) + 1,   //页码
+                    rows: params.limit,                         //页面大小
+                    companyName: $("#select-input-companyName").val(),
+                    projectName: $("#select-input-projectName").val(),
+                    page: (params.offset / params.limit) + 1,   //页码
+                    pageSize:10,
+                    sort: params.sort,      //排序列名
+                    sortOrder: params.order //排位命令（desc，asc）
                 };
-                console.log(temp);
-            } else if (cond == "condition") {
-
+                return JSON.stringify(temp);
+            } else {
                 temp = {
-                    "pageSize": params.limit,                         //页面大小
-                    "page": (params.offset / params.limit) + 1,
-                    "adminssionskey":$("#select-input-proname").val(),
-                    "schoolkey": $("#select-input-schname").val(),
-                    "majorkey":$("#select-input-majname").val()
+                    rows: params.limit,                         //页面大小
+                    page: (params.offset / params.limit) + 1,   //页码
+                    pageSize:10,
+                    sort: params.sort,      //排序列名
+                    sortOrder: params.order //排位命令（desc，asc）
                 };
-
+                return JSON.stringify(temp);
             }
-            return JSON.stringify(temp);
         },
         columns: [{
             checkbox: true,
@@ -129,27 +130,33 @@ function tableInit(tableUrl,cond) {
                 return index + 1;
             }
         }, {
-            field: 'qyname',
+            field: 'companyName',
             title: '企业名称',
             width:200
         }, {
-            field: 'xmname',
+            field: 'projectName',
             title: '项目名称',
             width:200
         },{
-            field: 'qyhy',
+            field: 'projectType',
             title: '项目行业',
             width:200
         }, {
-            field: 'xmys',
+            field: 'projectBudget',
             title: '项目预算',
             width:100
         }, {
-            field: 'jfzq',
-            title: '交付周期',
-            width:100
+            field: 'submissionTime',
+            title: '交付时间',
+            width:100,
+            formatter:function(value) {
+                if (value != null) {
+                    return getMyDate(value);
+                }
+                return "-";
+            }
         },{
-            field: 'xgwd',
+            field: 'filePath',
             title: '相关文档',
             width:300,
             formatter: function (valve,row,index) {
@@ -157,11 +164,11 @@ function tableInit(tableUrl,cond) {
                 return a;
             }
         },{
-            field: 'zmyq',
+            field: 'demandRequest',
             title: '招募要求',
             width:300
         },{
-            field: 'lxxx',
+            field: 'phone',
             title: '联系信息',
             width:300
         }
@@ -177,10 +184,10 @@ function tableInit(tableUrl,cond) {
         //客户端分页，需要指定到rows
         responseHandler: function(data) {
             console.log(data);
-            // return {
-            //     "rows": data.data.list,
-            //     "total": data.data.count
-            // }
+            return {
+                "rows": data.data.list,
+                "total": data.data.count
+            }
             return data.rows;
         }
     });
@@ -268,30 +275,29 @@ function selectInit(cOrU) {
     let checkboxTable;
     if (cOrU == 'creat') {
         checkboxTable = [{}];
-        $("#add-update-select-SchName").append("<option value='' style=\"display: none\">请选择学校名称</option>");
-        $("#add-update-select-ProName").append("<option value='' style=\"display: none\">请选择省份</option>");
-        $("#add-update-select-MajName").append("<option value='' style=\"display: none\">请选择专业名称</option>");
-
+        $("#add-update-select-SchName").append("<option value='' style=\"display: none\">请选择企业名称</option>");
+        $("#add-update-select-MajName").append("<option value='' style=\"display: none\">请选择项目名称</option>");
+        $("#add-update-select-ProName").append("<option value='' style=\"display: none\">请选择项目名称</option>");
     } else {
         checkboxTable = $("#plan-table-all").bootstrapTable('getSelections');
     }
-    $.each(SCH_ARR,function (i,v) {
-        if (checkboxTable[0].schoolname == v.schoolname) {
-            $("#add-update-select-SchName").append("<option value='" + v.schoolname + "' selected>" + v.schoolname + "</option>");
+    $.each(COM_ARR,function (i,v) {
+        if (checkboxTable[0].companyName == v.companyName) {
+            $("#add-update-select-SchName").append("<option value='" + v.companyName + "' selected>" + v.companyName + "</option>");
         } else {
-            $("#add-update-select-SchName").append("<option value='" + v.schoolname + "'>" + v.schoolname + "</option>");
+            $("#add-update-select-SchName").append("<option value='" + v.companyName + "'>" + v.companyName + "</option>");
         }
-        if (checkboxTable[0].provincename == v.provincename) {
-            $("#add-update-select-ProName").append("<option value='" + v.provincename + "' selected>" + v.provincename + "</option>");
-        } else {
-            $("#add-update-select-ProName").append("<option value='" + v.provincename + "'>" + v.provincename + "</option>");
-        }
+        // if (checkboxTable[0].projectName == v.projectName) {
+        //     $("#add-update-select-ProName").append("<option value='" + v.projectName + "' selected>" + v.projectName + "</option>");
+        // } else {
+        //     $("#add-update-select-ProName").append("<option value='" + v.projectName + "'>" + v.projectName + "</option>");
+        // }
     });
-    $.each(MAJ_ARR,function (i,v) {
-        if (checkboxTable[0].majorname == v.majorname) {
-            $("#add-update-select-MajName").append("<option value='" + v.majorkey + "' selected>" + v.majorname + "</option>");
+    $.each(PRO_ARR,function (i,v) {
+        if (checkboxTable[0].projectName == v.projectName) {
+            $("#add-update-select-MajName").append("<option value='" + v.projectName + "' selected>" + v.projectName + "</option>");
         } else {
-            $("#add-update-select-MajName").append("<option value='" + v.majorkey + "'>" + v.majorname + "</option>");
+            $("#add-update-select-MajName").append("<option value='" + v.projectName + "'>" + v.projectName + "</option>");
         }
     });
 }
@@ -535,7 +541,7 @@ function DeletePlan() {
 $("#search-button").click(function () {
 
     $("#plan-table-all").bootstrapTable('destroy');
-    tableInit(SELECT_CONDITION_URL,"condition");
+    tableInit(SELECT_ADMINPLAN_URL,"condition");
     console.log("已更新");
 })
 
