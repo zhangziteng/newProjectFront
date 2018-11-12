@@ -114,8 +114,9 @@ function tableInit(tableUrl,cond) {
             formatter: function (value, row, index) {
                 //通过formatter可以自定义列显示的内容
                 //value：当前field的值，即id
-                //row：当前行的数据
-                let a = '<a href="#" onclick="upload()">下载</a>';
+                //row：当前行的数据;
+                let a = '<a href="File/a.txt" download="a.txt" id="fileUpload">下载</a>';
+                    // this.href = checkboxTable[0].filepath;
                 // let b = '<a href="#" onclick="openAllModal()" id="check-allproblem" data-target="#allproblem" data-toggle="modal">修改</a>';
                 // let c = '<a href="#" onclick="openDeleteModal()">删除</a>';
                 return a;
@@ -147,7 +148,9 @@ function tableInit(tableUrl,cond) {
 
 
 function upload() {
-    // this.href = checkboxTable[0].filepath;
+    var href = $("#fileUpload").attr("href");
+    href = encodeURI(href);
+    $("#fileUpload").attr("href",href);
 }
 
 /**
