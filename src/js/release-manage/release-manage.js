@@ -1,7 +1,7 @@
 
-var SELECT_ADMINPLAN_URL = requestUrl + "api/generate/adminssionsplaninformation/AdminssionsplaninformationVOPageAll"; //url地址 分页查询
-var SELECT_CONDITION_URL = requestUrl + "api/generate/adminssionsplaninformation/AdminssionsplaninformationVOPageBySMP"; //url地址 条件查询
-var UPDATE_RELEASEIS_URL = requestUrl + "api/generate/adminssionsplaninformation/releaseAdminssionsplaninformationVO"; //url地址 发布
+var SELECT_ADMINPLAN_URL = requestUrl + "api/generate/demandvolunteerinformation/selectDemandvolunteerinformation"; //url地址 分页查询
+var SELECT_CONDITION_URL = requestUrl + "api/generate/demandvolunteerinformation/selectDemandvolunteerinformation"; //url地址 条件查询
+var UPDATE_RELEASEIS_URL = requestUrl + "api/generate/demandvolunteerinformation/updateDemandvolunteerinformation"; //url地址 发布
 
 /**
 * @Description:   _初始化表格
@@ -26,6 +26,7 @@ function tableInit(tableUrl,cond) {
         striped: true,                      //是否显示行间隔色
         cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
         pagination: true,                   //是否显示分页（*）
+        paginationDetailHAlign:"right",      //分页详细信息位置
         sortable: false,                     //是否启用排序
         sortOrder: "asc",                   //排序方式
         sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
@@ -53,15 +54,17 @@ function tableInit(tableUrl,cond) {
                 temp = {
                     "pageSize": params.limit,                         //页面大小
                     "page": (params.offset / params.limit) + 1,   //页码
+                    pageSize:5,
                 };
             } else if (cond == "condition") {
 
                 temp = {
                     "pageSize": params.limit,                         //页面大小
                     "page": (params.offset / params.limit) + 1,
-                    "adminssionskey":$("#select-input-proName").val(),
-                    "schoolkey":$("#select-input-schName").val(),
-                    "majorkey":$("#select-input-majName").val()
+                    "projectName":$("#select-input-schName").val(),
+                    pageSize:5,
+                    // "schoolkey":$("#select-input-schName").val(),
+                    // "majorkey":$("#select-input-majName").val()
                 }
             }
             return JSON.stringify(temp);
@@ -71,62 +74,66 @@ function tableInit(tableUrl,cond) {
             checkbox: true,
             visible: true               //是否显示复选框
         }, {
-            field: 'xmname',
+            field: 'projectName',
             title: '项目名称',
             width:200
         },{
-            field: 'qyhy',
+            field: 'projectType',
             title: '项目行业',
             width:200
         }, {
-            field: 'xmys',
+            field: 'projectBudget',
             title: '项目预算',
             width:100
         }, {
-            field: 'jfzq',
+            field: 'submissionTime',
             title: '交付周期',
             width:100
         },{
-            field: 'xgwd',
+            field: 'filePath',
             title: '相关文档',
-            width:300,
+            width:100,
             formatter: function (valve,row,index) {
-                let a = "<a href=''>下载</a>"
+                let a = "<a href='#' style='color: #00b3ee;'>下载</a>";
                 return a;
             }
         },{
-            field: 'lxxx',
+            field: 'phone',
             title: '联系信息',
-            width:300
+            width:200
         }, {
-            field: 'createtime',
+            field: 'createTime',
             title: '创建时间',
+            width:200,
             formatter: function (v,r,i) {
                 let now = new Date(v);
                 return getMyTime(now);
             }
         }, {
+            field: 'publishTime',
             title: '发布时间',
+            width:200,
             formatter: function (v,r,i) {
-                if (r.ispublish == 0) {
+                if (v == 0) {
                     return "未发布！";
                 } else {
-                    if (r.publishtime == null || r.publishtime == '') {
+                    if (v == null || v == '') {
                         return "-";
                     }
-                    let now = new Date(r.publishtime);
+                    let now = new Date(v);
                     return getMyTime(now);
                 }
             }
 
         }, {
+            field: 'offlineTime',
             title: '下线时间',
+            width:200,
             formatter: function (v,r,i) {
-
-                if (r.ispublish == 0) {
-                    return "未发布！";
+                if (v ==  null || v == '') {
+                    return "未发布";
                 } else {
-                    let now = new Date(r.offlinetime)
+                    let now = new Date(v);
                     return getMyTime(now);
                 }
             }
@@ -189,17 +196,17 @@ function publishAdminssions() {
         return 0;
     }
 
-    let relObj = {
-        "adminssionskey" : checkboxTable[0].adminssionskey,
-        "offlinetime" : offlineTime,
-        "createyear" : checkboxTable[0].createyear
-    };
+    let relObj = JSON.stringify({
+        "demandKey" : checkboxTable[0].demandKey,
+        "offlineTime" :offlineTime,
+        "isPublish" : 1
+    });
     $.ajax({
         url: UPDATE_RELEASEIS_URL,
         type: 'post',
         data: relObj,
-        //dataType: "json",
-        //contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        contentType: "application/json;charset=utf-8",
         success: function (data) {
             if (data.ok) {
                 poptip.alert(POP_TIP.publishSuccess);

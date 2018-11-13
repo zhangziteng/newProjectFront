@@ -121,7 +121,9 @@ body, html {
     float: right;
     width: 23%;
 }
-
+.pull-right.pagination-detail {
+    display:none;
+}
 .from-controller {
     /*display: block;*/
     /*width: 100%;*/

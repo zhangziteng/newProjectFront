@@ -23,11 +23,12 @@ function tableInit(tableUrl,cond) {
         cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
         pagination: true,                   //是否显示分页（*）
         sortable: false,                     //是否启用排序
+        paginationDetailHAlign:"right",      //分页详细信息位置
         sortOrder: "asc",                   //排序方式
         sidePagination: requestJson ? "client" : "server",           //分页方式：client客户端分页，server服务端分页（*）
         pageNumber: 1,                      //初始化加载第一页，默认第一页,并记录
-        pageSize: 10,                     //每页的记录行数（*）
-        pageList: [10],        //可供选择的每页的行数（*）
+        pageSize: 5,                     //每页的记录行数（*）
+        pageList: [5,10],        //可供选择的每页的行数（*）
         search: false,                      //是否显示表格搜索
         strictSearch: true,
         //showColumns: true,                  //是否显示所有的列（选择显示的列）
@@ -47,7 +48,7 @@ function tableInit(tableUrl,cond) {
                     rows: params.limit,                         //页面大小
                     projectName: $("#search-input-project").val(),
                     page: (params.offset / params.limit) + 1,   //页码
-                    pageSize:10,
+                    pageSize:5,
                     sort: params.sort,      //排序列名
                     sortOrder: params.order //排位命令（desc，asc）
                 };
@@ -56,7 +57,7 @@ function tableInit(tableUrl,cond) {
                 temp = {
                     rows: params.limit,                         //页面大小
                     page: (params.offset / params.limit) + 1,   //页码
-                    pageSize:10,
+                    pageSize:5,
                     sort: params.sort,      //排序列名
                     sortOrder: params.order //排位命令（desc，asc）
                 };

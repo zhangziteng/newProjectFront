@@ -11,19 +11,16 @@
  */
 $(function () {
     if (JSON.parse(sessionStorage.getItem("user-info")) != null) {
-        switch (JSON.parse(sessionStorage.getItem("user-info")).userrole) {
-            case "0":
-                $("#nav-role").text("考生");
-                break;
+        switch (JSON.parse(sessionStorage.getItem("user-info")).data.data) {
             case "1":
-                $("#nav-role").text("管理员");
+                $("#nav-role").text("需求方xxx");
                 break;
-            case "2":
-                $("#nav-role").text("招生者");
+            case "0":
+                $("#nav-role").text("管理员");
                 break;
         }
     }
-})
+});
 
 /**
  *@desc 修改密码

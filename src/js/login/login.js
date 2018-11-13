@@ -144,34 +144,29 @@ $(function () {
  *@author zhangziteng
  */
 $("#login-button-adminlogin").click(function () {
-    window.location.href = "../../pages/default/default.html"
+    // window.location.href = "../../pages/default/default.html"
     var username = $("#login-input-username").val();
     var password = $("#login-input-password").val();
     $.ajax({
         url: AJAX_URL.adminLogin,
         type: requestJson ? 'get' : 'post',
-        data: {
-            "userAccount": username,
-            "userPassword": password
-        },
+        data: JSON.stringify({
+            "account": username,
+            "password": password
+        }),
         dataType: "json",
-        // contentType: "application/json;charset=utf-8",
+        contentType: "application/json;charset=utf-8",
         success: function (result) {
             if (result.ok) {
-                // if (result.data.userrole === '1'){
-                //     sessionStorage.setItem("user-info", JSON.stringify({
-                //         "userrole": result.data.userrole
-                //     }));
-                //     window.location.href = '../default/default.html';
-                // } else {
-                //     alert("非管理员用户禁止登陆！");
-                //     return
-                // }
+                    sessionStorage.setItem("user-info", JSON.stringify({
+                        data:result
+                    }));
+                    window.location.href = '../default/default.html';
                 // // alert(data.message);
-                sessionStorage.setItem("user-info", JSON.stringify({
-                            "userrole": result.data.userrole
-                        }));
-                window.location.href = '../default/default.html';
+                // sessionStorage.setItem("user-info", JSON.stringify({
+                //             "userrole": result.data.userrole
+                //         }));
+                // window.location.href = '../default/default.html';
             } else {
                 alert(result.message);
             }

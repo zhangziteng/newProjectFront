@@ -123,3 +123,6 @@ body, html {
     border-radius: 4px;
     width: 150px;
 }
+.pull-right.pagination-detail {
+    display:none;
+}

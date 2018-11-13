@@ -72,7 +72,9 @@ body, html {
 .IsNull {
     margin: 0% 0% 0% 35%;
 }
-
+.pull-right.pagination-detail {
+    display:none;
+}
 /*.select-creatYear {*/
     /*float: right;*/
     /*margin: 2px 0 0 0;*/

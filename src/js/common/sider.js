@@ -37,21 +37,22 @@ $(function() {
     })
 
     //通过权限，显示模块 by 刘志杰
-//     if (JSON.parse(sessionStorage.getItem("user-info"))) {
-//     switch (JSON.parse(sessionStorage.getItem("user-info")).userrole) {
-//         case "0": //考生
-//             break;
-//         case "1": //管理员
-//             $("li[name='UserManage']").css("display", "block");
-//             $("li[name='DisciplineManage']").css("display", "block");
-//             $("li[name='SchoolManage']").css("display", "block");
-//             break;
-//         case "2": //招生者
-//             break;
-//         case "3":
-//             break;
-//     }
-// }
+    if (JSON.parse(sessionStorage.getItem("user-info"))) {
+    switch (JSON.parse(sessionStorage.getItem("user-info")).data.data) {
+        case "1": //需求方
+            $("li[name='UserManage']").css("display", "block");
+            $("li[name='DisciplineManage']").css("display", "block");
+            break;
+        case "0": //管理员
+            $("li[name='RecruitPlan']").css("display", "block");
+            $("li[name='SchoolManage']").css("display", "block");
+            break;
+        case "2": //招生者
+            break;
+        case "3":
+            break;
+    }
+}
 
 });
 

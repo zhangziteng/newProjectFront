@@ -70,13 +70,14 @@ function tableInit(tableUrl,cond) {
         pagination: true,                   //是否显示分页（*）
         // paginationHAlign:'center',       //分页水平位置
         //paginationDetailHAlign:"right",      //分页详细信息位置
+        paginationDetailHAlign:"right",      //分页详细信息位置
         sortName:'createtime',                //排序的数据字段名
         sortable: false,                     //是否启用排序
         sortOrder: "desc",                   //排序方式
         sidePagination: requestJson ? "client" : "server",           //分页方式：client客户端分页，server服务端分页（*）
         pageNumber: 1,                      //初始化加载第一页，默认第一页,并记录
-        pageSize: 10,                     //每页的记录行数（*）
-        pageList: [10],        //可供选择的每页的行数（*）
+        pageSize: 5,                     //每页的记录行数（*）
+        pageList: [5,10],        //可供选择的每页的行数（*）
         search: false,                      //是否显示表格搜索
         strictSearch: true,
         //showColumns: true,                  //是否显示所有的列（选择显示的列）
@@ -104,7 +105,7 @@ function tableInit(tableUrl,cond) {
                     companyName: $("#select-input-companyName").val(),
                     projectName: $("#select-input-projectName").val(),
                     page: (params.offset / params.limit) + 1,   //页码
-                    pageSize:10,
+                    pageSize:5,
                     sort: params.sort,      //排序列名
                     sortOrder: params.order //排位命令（desc，asc）
                 };
@@ -113,7 +114,7 @@ function tableInit(tableUrl,cond) {
                 temp = {
                     rows: params.limit,                         //页面大小
                     page: (params.offset / params.limit) + 1,   //页码
-                    pageSize:10,
+                    pageSize:5,
                     sort: params.sort,      //排序列名
                     sortOrder: params.order //排位命令（desc，asc）
                 };
@@ -148,23 +149,17 @@ function tableInit(tableUrl,cond) {
         }, {
             field: 'submissionTime',
             title: '交付时间',
-            width:100,
-            formatter:function(value) {
-                if (value != null) {
-                    return getMyDate(value);
-                }
-                return "-";
-            }
+            width:100
         },{
             field: 'filePath',
             title: '相关文档',
             width:300,
             formatter: function (valve,row,index) {
-                let a = "<a href=''>下载</a>"
+                let a = "<a href='#' style='color: #1d7db1;'>下载</a>"
                 return a;
             }
         },{
-            field: 'demandRequest',
+            field: 'recruitQuestion',
             title: '招募要求',
             width:300
         },{
@@ -282,70 +277,62 @@ function selectInit(cOrU) {
         checkboxTable = $("#plan-table-all").bootstrapTable('getSelections');
     }
     $.each(COM_ARR,function (i,v) {
+        console.log(v);
         if (checkboxTable[0].companyName == v.companyName) {
-            $("#add-update-select-SchName").append("<option value='" + v.companyName + "' selected>" + v.companyName + "</option>");
+            $("#add-update-select-SchName").append("<option value='" + v.companyKey + "' selected>" + v.companyName + "</option>");
         } else {
-            $("#add-update-select-SchName").append("<option value='" + v.companyName + "'>" + v.companyName + "</option>");
+            $("#add-update-select-SchName").append("<option value='" + v.companyKey + "'>" + v.companyName + "</option>");
         }
-        // if (checkboxTable[0].projectName == v.projectName) {
-        //     $("#add-update-select-ProName").append("<option value='" + v.projectName + "' selected>" + v.projectName + "</option>");
-        // } else {
-        //     $("#add-update-select-ProName").append("<option value='" + v.projectName + "'>" + v.projectName + "</option>");
-        // }
     });
     $.each(PRO_ARR,function (i,v) {
         if (checkboxTable[0].projectName == v.projectName) {
-            $("#add-update-select-MajName").append("<option value='" + v.projectName + "' selected>" + v.projectName + "</option>");
+            $("#add-update-select-MajName").append("<option value='" + v.projectKey + "' selected>" + v.projectName + "</option>");
         } else {
-            $("#add-update-select-MajName").append("<option value='" + v.projectName + "'>" + v.projectName + "</option>");
+            $("#add-update-select-MajName").append("<option value='" + v.projectKey + "'>" + v.projectName + "</option>");
         }
     });
 }
 
 
-var N = '0';
-/**
-* @Description:   _选择学校时刷新省份下拉框内容
-* @Author:         yueben
-* @CreateDate:     2018/10/24 10:40
-*/
-function schNameByPro(value) {
-
-    console.log(value);
-    if (N != 'pro') {
-        $("#add-update-select-ProName").empty();
-        $("#add-update-select-ProName").append("<option value='0' style=\"display: none\">请选择省份</option>");
-    }
-    $.each(SCH_ARR,function (i,v) {
-        if (v.schoolname == value) {
-            $("#add-update-select-ProName").append("<option value='" + v.schoolkey + "'>" + v.provincename + "</option>")
-        }
-    });
-    if (N == '0') {
-        N = 'sch';
-    }
-
-}
-
-/**
-* @Description:   _选择省份时刷新学校下拉框
-* @Author:         yueben
-* @CreateDate:     2018/10/24 10:41
-*/
-function proNameBySch(value) {
-    if (N != 'sch') {
-        $("#add-update-select-SchName").empty();
-        $("#add-update-select-SchName").append("<option value='0' style=\"display: none\">请选择学校名称</option>");
-    }
-    $.each(SCH_ARR,function (i,v) {
-        if (v.provincename == value) {
-            $("#add-update-select-SchName").append("<option value='" + v.schoolkey + "'>" + v.schoolname + "</option>")
-        }
-    });
-    if (N == '0') {
-        N = 'pro';
-    }
-}
+// var N = '0';
+// /**
+// * @Description:   _选择学校时刷新省份下拉框内容
+// * @Author:         yueben
+// * @CreateDate:     2018/10/24 10:40
+// */
+// function schNameByPro(value) {
+//
+//     console.log(value);
+//     if (N != 'pro') {
+//         $("#add-update-select-ProName").empty();
+//         $("#add-update-select-ProName").append("<option value='0' style=\"display: none\">请选择省份</option>");
+//     }
+//     $.each(SCH_ARR,function (i,v) {
+//         if (v.schoolname == value) {
+//             $("#add-update-select-ProName").append("<option value='" + v.schoolkey + "'>" + v.provincename + "</option>")
+//         }
+//     });
+// }
+//
+// /**
+// * @Description:   _选择省份时刷新学校下拉框
+// * @Author:         yueben
+// * @CreateDate:     2018/10/24 10:41
+// */
+// function proNameBySch(value) {
+//     if (N != 'sch') {
+//         $("#add-update-select-SchName").empty();
+//         $("#add-update-select-SchName").append("<option value='0' style=\"display: none\">请选择学校名称</option>");
+//     }
+//     $.each(SCH_ARR,function (i,v) {
+//         if (v.provincename == value) {
+//             $("#add-update-select-SchName").append("<option value='" + v.schoolkey + "'>" + v.schoolname + "</option>")
+//         }
+//     });
+//     if (N == '0') {
+//         N = 'pro';
+//     }
+// }
 
 /**
 * @Description:   _点击提交按钮，完成新增或是修改
@@ -367,26 +354,26 @@ function tiJiao() {
     } else {
         $("#show-span-majNameIsNull").css('display','none');
     }
-    if ($("#add-update-select-ProName").val() == '' || $("#add-update-select-ProName").val() == null || $("#add-update-select-ProName").val() == '0') {
-        $("#show-span-proNameIsNull").text("请选择省份！");
-        isNull = true;
-    } else {
-        $("#show-span-proNameIsNull").css('display','none');
-    }
-    if ($("#add-update-input-PlanNum").val() == '' || $("#add-update-input-PlanNum").val() == null) {
-        $("#show-span-planNumIsNull").text("请输入招生人数！");
-        isNull = true;
-    } else {
-        $("#show-span-planNumIsNull").css('display','none');
-    }
+    // if ($("#add-update-select-ProName").val() == '' || $("#add-update-select-ProName").val() == null || $("#add-update-select-ProName").val() == '0') {
+    //     $("#show-span-proNameIsNull").text("请选择省份！");
+    //     isNull = true;
+    // } else {
+    //     $("#show-span-proNameIsNull").css('display','none');
+    // }
+    // if ($("#add-update-input-PlanNum").val() == '' || $("#add-update-input-PlanNum").val() == null) {
+    //     $("#show-span-planNumIsNull").text("请输入招生人数！");
+    //     isNull = true;
+    // } else {
+    //     $("#show-span-planNumIsNull").css('display','none');
+    // }
     //当某一项为空时不进行提交
-    if (isNull) {
-        return 0;
-    }
+    // if (isNull) {
+    //     return 0;
+    // }
 
     //判断为修改操作还是新增操作
     let tit = $("#plan-modal-title").text();
-    if (tit == '修改招生计划') {
+    if (tit == '修改需求计划') {
 
         let checkboxTable = $("#plan-table-all").bootstrapTable('getSelections');
         let schoolkey = '';
@@ -437,18 +424,18 @@ function tiJiao() {
 
             }
         })
-    } else if (tit == '创建招生计划') {
-        let schoolkey;
-        if (N == 'sch') {
-            schoolkey = $("#add-update-select-ProName").val();
-        } else {
-            schoolkey = $("#add-update-select-SchName").val();
-        }
-        console.log("schoolkey=" + schoolkey);
+    } else if (tit == '创建需求计划') {
+        // let schoolkey;
+        // if (N == 'sch') {
+        //     schoolkey = $("#add-update-select-ProName").val();
+        // } else {
+        //     commanykey = $("#add-update-select-SchName").val();
+        // }
+        // console.log("schoolkey=" + schoolkey);
         let creatObj = JSON.stringify({
-            "schoolkey": schoolkey,
-            "majorkey": $("#add-update-select-MajName").val(),
-            "adminssionsnumber": $("#add-update-input-PlanNum").val()
+            "companyKey": $("#add-update-select-SchName").val(),
+            "projectKey": $("#add-update-select-MajName").val(),
+            "submissionTime": $("#add-update-data").val()
         });
         $.ajax({
             url: INSERT_ADMINPLAN_URL,

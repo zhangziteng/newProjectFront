@@ -108,8 +108,17 @@
                         </div>
                         <div class="form-group">
                             <div class="col-sm-12 form-inline">
-                                <label for="add-update-select-ProName" class="col-sm-4 control-label">开发类型：</label>
-                                <select class="from-controller" id="add-update-select-ProName" style="width: 200px;" onchange="proNameBySch(this.value)">
+                                <label for="add-update-data" class="col-sm-4 control-label">交付周期：</label>
+                                <!--<select class="from-controller" id="add-update-select-ProName" style="width: 200px;" onchange="proNameBySch(this.value)">-->
+                                <!--</select>-->
+                                <select class="from-controller" id="add-update-data" style="width: 200px;" >
+                                    <option selected>请选择交付周期</option>
+                                    <option value="3天">3天</option>
+                                    <option value="7天">7天</option>
+                                    <option value="15天">15天</option>
+                                    <option value="30天">30天</option>
+                                    <option value="60天">60天</option>
+                                    <option value="180天">180天</option>
                                 </select>
                                 <br><span id="show-span-proNameIsNull" class="IsNull" style="color: red;"></span>
                             </div>
