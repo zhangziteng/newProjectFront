@@ -104,6 +104,7 @@ function tableInit(tableUrl,cond) {
                     rows: params.limit,                         //页面大小
                     companyName: $("#select-input-companyName").val(),
                     projectName: $("#select-input-projectName").val(),
+                    projectType: $("#select-input-projectType").val(),
                     page: (params.offset / params.limit) + 1,   //页码
                     pageSize:5,
                     sort: params.sort,      //排序列名
