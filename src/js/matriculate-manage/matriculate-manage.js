@@ -1,10 +1,9 @@
-/*发布管理 */
+/*招募管理 */
 var examinee_condition = {} //条件查询的内容
 $(function () {
-    tableInit(AJAX_URL.selectMatriculate);
-    laydateInit("#matriculate-input-admissiontime");
+    tableInit(AJAX_URL.selectMatriculate,'');
+    // laydateInit("#matriculate-input-admissiontime");
 })
-
 
 /**
  * @Desc 表格初始化
@@ -12,7 +11,7 @@ $(function () {
  * @param tableUrl 表格中获取数据的url地址
  * @Date 2018-10-09
  */
-function tableInit(tableUrl) {
+function tableInit(tableUrl,cond) {
     $('#my-table').bootstrapTable({
         url: tableUrl,
         method: requestJson ? 'get' : 'post',                      //请求方式（*）
@@ -42,31 +41,27 @@ function tableInit(tableUrl) {
         detailView: false,                  //是否显示父子表
         //得到查询的参数
         queryParams: function (params) {
-            let temp = {};
-            //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
-            if (examinee_condition.admissionstatue && examinee_condition.admissionstatue != "") {
-                temp.admissionstatue = examinee_condition.admissionstatue;
+            var temp;
+            if (cond == "condition") {
+                temp = {
+                    rows: params.limit,                         //页面大小
+                    projectName: $("#search-input-project").val(),
+                    page: (params.offset / params.limit) + 1,   //页码
+                    pageSize:10,
+                    sort: params.sort,      //排序列名
+                    sortOrder: params.order //排位命令（desc，asc）
+                };
+                return JSON.stringify(temp);
+            } else {
+                temp = {
+                    rows: params.limit,                         //页面大小
+                    page: (params.offset / params.limit) + 1,   //页码
+                    pageSize:10,
+                    sort: params.sort,      //排序列名
+                    sortOrder: params.order //排位命令（desc，asc）
+                };
+                return JSON.stringify(temp);
             }
-            if (examinee_condition.schoolname && examinee_condition.schoolname != "") {
-                temp.schoolname = examinee_condition.schoolname;
-            }
-            if (examinee_condition.provincename && examinee_condition.provincename != "") {
-                temp.provincename = examinee_condition.provincename;
-            }
-            if (examinee_condition.starttotalscore && examinee_condition.starttotalscore != "") {
-                temp.starttotalscore = examinee_condition.starttotalscore;
-            }
-            if (examinee_condition.endtotalscore && examinee_condition.endtotalscore != "") {
-                temp.endtotalscore = examinee_condition.endtotalscore;
-            }
-
-            temp.pageSize = params.limit;                       //页面大小
-            temp.page = (params.offset / params.limit) + 1;  //页码
-            // temp.sort = params.sort;      //排序列名
-            // temp.orderBy = params.order; //排位命令（desc，asc）
-
-            return JSON.stringify(temp);
-
         },
         columns: [{
             field: 'checkbox',
@@ -96,37 +91,11 @@ function tableInit(tableUrl) {
         },{
             field:'projectName',
             title:'项目名称',
-        },
-        // },{
-        //     field: 'declaretime',
-        //     title: '申报时间',
-        //     formatter: function (value) {
-        //         if (value != null) {
-        //             return getMyDate(value);
-        //         }
-        //         return "-";
-        //     }
-        // }, {
-         {
+        },{
             field: 'projectKey',
             title: '项目主键',
 
         }
-            // {
-            // field: 'ID',
-            // title: '操作',
-            // width: 120,
-            // align: 'center',
-            // valign: 'middle',
-            // formatter: function (value, row, index) {
-            //     console.log(row)
-            //     //通过formatter可以自定义列显示的内容
-            //     //value：当前field的值，即id
-            //     //row：当前行的数据
-            //     let a = '<a href="#" onclick="personalDetails(' + row.ExamineeinformationEO.examineekey + ')">详情</a>';
-            //     return a;
-            // }
-        // }
         ],
         onLoadSuccess: function (e) {
             // console.log(e)
@@ -157,48 +126,57 @@ function tableInit(tableUrl) {
 
 /**
  * @Desc “查询”按钮
- * @Author 刘志杰
+ * @Author 宣文彬
  * @Date 2018-10-11
  */
 function selectMatriculate() {
-    if (!$("#search-select-status") &&
-        (!$("#search-input-school") || $("#search-input-school").val().trim() == "") &&
-        (!$("#search-input-province") || $("#search-input-province").val().trim() == "") &&
-        (!$("#search-input-score1") || $("#search-input-score1").val().trim() == "") &&
-        (!$("#search-input-score2") || $("#search-input-score2").val().trim() == "")) {
-        poptip.alert(POP_TIP.selectInputNotNull)
-    }
-
-    examinee_condition.admissionstatue = $("#search-select-status").val();
-    examinee_condition.schoolname = $("#search-input-school").val();
-    examinee_condition.provincename = $("#search-input-province").val();
-    examinee_condition.starttotalscore = $("#search-input-score1").val();
-    examinee_condition.endtotalscore = $("#search-input-score2").val();
-
-    //条件查询
-    $('#my-table').bootstrapTable('refresh');
-
+    $('#my-table').bootstrapTable("destroy");
+    tableInit(AJAX_URL.selectMatriculate,"condition");
 }
-
 /**
- * @Desc 模态框【录取】（“确认”按钮）
+ * @Desc “重置”按钮
+ * @Author 宣文彬
+ * @Date 2018-10-11
+ */
+function ResetPlanInput() {
+    $("#search-input-project").val('');
+}
+/**
+ * @Desc “招募”按钮
  * @Author 刘志杰
  * @Date 2018-10-11
  */
-function confirm() {
+function openModel() {
+    let checkboxTable = $("#my-table").bootstrapTable('getSelections');
+    if (checkboxTable.length > 1 || checkboxTable.length <= 0) {
+        poptip.alert(POP_TIP.choiceOne);
+        $('#my-table').bootstrapTable("refresh");
+        return 0;
+
+    }
+    console.log(checkboxTable);
+    console.log(checkboxTable[0].status)
+    if (checkboxTable[0].status == 1) {
+        poptip.alert(POP_TIP.recruitExist);
+        $('#my-table').bootstrapTable("refresh");
+        return 0;
+    }
     $.ajax({
         url: AJAX_URL.insertMatriculate,
         type: requestJson ? 'get' : 'put',
         data: JSON.stringify({
-            "volunteerkey": $("#modal-input-key").val(),
-            "admissionstatue": 1,
-            "admissiontime": $("#matriculate-input-admissiontime").val()
+            "userKey": checkboxTable[0].userKey,
+            "status":1
         }),
         dataType: "json",
         contentType: "application/json;charset=utf-8",
         success: function (data) {
-            poptip.alert(POP_TIP.matriculateSuccess);
-            $("#matriculate-modal").modal("hide");
+            if (data.ok) {
+                poptip.alert(POP_TIP.recruitSuccess);
+                $('#my-table').bootstrapTable("refresh");
+            } else {
+                poptip.alert();
+            }
             console.log(data)
         }
     })
@@ -210,82 +188,36 @@ function confirm() {
  * @param id 时间控件的id
  * @Date 2018-10-11
  */
-function laydateInit(id) {
-    laydate.render({
-        elem: id,
-        max: new Date().Format('yyyy-MM-dd'),
-        done: function (value) {
-
-        }
-    });
-
-}
+// function laydateInit(id) {
+//     laydate.render({
+//         elem: id,
+//         max: new Date().Format('yyyy-MM-dd'),
+//         done: function (value) {
+//
+//         }
+//     });
+//
+// }
 
 /**
  * @Desc “录取”按钮
  * @Author 刘志杰
  * @Date 2018-10-12
  */
-function admssion() {
-    let checkboxTable = $("#my-table").bootstrapTable('getSelections');
-    if (checkboxTable.length <= 0) {
-        poptip.alert(POP_TIP.choiceOne);
-        return 0;
-    } else if (checkboxTable.length > 1) {
-        poptip.alert(POP_TIP.choiceOnlyOne);
-        return 0;
-    }
-    $("#modal-input-key").val(checkboxTable[0].volunteerkey);
-    $("#matriculate-modal").modal("show");
+// function admssion() {
+//     let checkboxTable = $("#my-table").bootstrapTable('getSelections');
+//     if (checkboxTable.length <= 0) {
+//         poptip.alert(POP_TIP.choiceOne);
+//         return 0;
+//     } else if (checkboxTable.length > 1) {
+//         poptip.alert(POP_TIP.choiceOnlyOne);
+//         return 0;
+//     }
+//     $("#modal-input-key").val(checkboxTable[0].volunteerkey);
+//     $("#matriculate-modal").modal("show");
+//
+//
+// }
 
-
-}
-
-
-/**
- * @Desc 打开模态框【个人详情】
- * @Author 刘志杰
- * @param examineekey 该志愿 对应的考生id
- * @Date 2018-10-12
- */
-function personalDetails(examineekey) {
-    if (requestJson) {
-        poptip.alert("就不让你看")
-        return 0;
-    }
-    $.ajax({
-        url: AJAX_URL.personalDetailsMatriculate + "/" + examineekey,
-        type: 'get',
-        dataType: "json",
-        // contentType: "application/json;charset=utf-8",
-        success: function (result) {
-            if (result && result.ok) {
-                $("#basicinfo-input-quasiexaminationnumber").val(result.data.quasiexaminationnumber)
-                $("#basicinfo-input-realname").val(result.data.realname)
-                if (result.data.sex == "男") {
-                    $("input[name='basicinfo-radio-sex'][value='男']").attr("checked", true);
-                } else if (result.data.sex == "女") {
-                    $("input[name='basicinfo-radio-sex'][value='女']").attr("checked", true);
-                }
-                $("#basicinfo-input-age").val(result.data.age)
-                $("#basicinfo-input-idcardnumber").val(result.data.idcardnumber)
-                $("#basicinfo-input-registeredresidence").val(result.data.registeredresidence)
-                $("#basicinfo-input-politicaloutlook").val(result.data.politicaloutlook)
-                $("#basicinfo-input-nativeplace").val(result.data.nativeplace)
-                $("#basicinfo-input-email").val(result.data.email)
-                $("#basicinfo-input-phonenumber").val(result.data.phonenumber)
-                $("#basicinfo-input-graduateschool").val(result.data.graduateschool)
-                $("#personalinfo-modal").modal('show');
-            } else {
-                if (result && result.message != "") {
-                    poptip.alert(result.message)
-                } else {
-                    poptip.alert(result.dataLoadfail)
-                }
-            }
-
-        }
-    })
-}
 
 

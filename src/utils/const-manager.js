@@ -42,6 +42,8 @@ const POP_TIP = {
     publishSuccess: "发布成功",//by 刘志杰
     selectFail:"查询失败", //by 刘志杰
     matriculateSuccess:"录入成功", //by 刘志杰
+    recruitSuccess: "招募成功", //by 宣文彬
+    recruitExist: "已经进行招募", //by 宣文彬
 
 
 
@@ -129,11 +131,11 @@ const AJAX_URL = {
     selectReleaseManage: requestJson ? '../../jsonDatas/adminssionsDate.json' : '',
     //发布管理(发布,即修改) 刘志杰 2018-10-10
     updateReleaseManage: requestJson ? '../../jsonDatas/adminssionsDate.json' : '',
-    /*==============================录取管理=========================================*/
-    //录取管理(分页查询) 刘志杰 2018-10-11
-    selectMatriculate: requestJson ? '../../jsonDatas/matriculateData.json' : requestUrl + "api/generate/examineevolunteerinformation/page",
-    //录取管理 录取（修改） 刘志杰 2018-10-11
-    insertMatriculate: requestJson ? '../../jsonDatas/matriculateData.json' : requestUrl + 'api/generate/examineevolunteerinformation',
+    /*==============================招募管理=========================================*/
+    //招募管理(分页查询)
+    selectMatriculate: requestJson ? '../../jsonDatas/matriculateData.json' : requestUrl + "api/generate/recruitpeople/selectRecruitpeople",
+    //招募管理 录取（修改）
+    insertMatriculate: requestJson ? '../../jsonDatas/matriculateData.json' : requestUrl + 'api/generate/recruitpeople/updateRecruitpeople',
     //录取管理 （个人详情） 刘志杰 2018-10-11
     personalDetailsMatriculate: requestJson ? '../../jsonDatas/matriculateData.json' : requestUrl + 'api/generate/examineeinformation',
 

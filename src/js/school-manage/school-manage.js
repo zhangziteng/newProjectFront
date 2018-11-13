@@ -1,16 +1,16 @@
 /**
- *@desc 学校管理界面初始化
+ *@desc 企业管理界面初始化
  *@date 2018年10月11日10:06:08
  *@author zhangziteng
  */
 var UPDATESCHOOL = {}     //修改时 选择的用户信息
 var ADDSCHOOL = {}        //创建时 填写的用户信息
 // var schoolname = "";
-var SELECT_SCHOOL_URL = requestJson ? AJAX_URL.recruitPlanData : requestUrl + "api/generate/schoolinformation/querySchoolInfoByPage"; //url地址 分页查询
-var DELETE_SCHOOL_URL = requestUrl + "api/generate/schoolinformation/deleteSchoolInfo"; //url地址 删除
-var INSERT_SCHOOL_URL = requestUrl + "api/generate/schoolinformation/addSchoolInfo"; //url地址 新增
-var UPDATE_SCHOOL_URL = requestUrl + "api/generate/schoolinformation/updateSchoolInfo"; //url地址 修改
-var CHACK_SCHOOL_URL = requestUrl + "api/generate/schoolinformation/querySchoolInfoByPage"; //url地址 模糊
+var SELECT_SCHOOL_URL = requestJson ? AJAX_URL.recruitPlanData : requestUrl + "api/generate/companyinfo/queryByPage"; //url地址 分页查询
+var DELETE_SCHOOL_URL = requestUrl + "api/generate/companyinfo/deleteCompanyInfo"; //url地址 删除
+// var INSERT_SCHOOL_URL = requestUrl + "api/generate/schoolinformation/addSchoolInfo"; //url地址 新增
+var UPDATE_SCHOOL_URL = requestUrl + "api/generate/companyinfo/updateCompanyInfo"; //url地址 修改
+var CHACK_SCHOOL_URL = requestUrl + "api/generate/companyinfo/queryByPage"; //url地址 模糊
 var LOGIN_INFO = {
     //登录的用户信息
     "userLoginRole": 1
@@ -63,7 +63,7 @@ function tableInit(tableUrl,cond) {
                 if (cond == "condition") {
                     temp = {
                             rows: params.limit,                         //页面大小
-                            schoolname: $("#school-input-search").val(),
+                            companyName: $("#school-input-search").val(),
                             page: (params.offset / params.limit) + 1,   //页码
                             pageSize:10,
                             sort: params.sort,      //排序列名
@@ -82,15 +82,19 @@ function tableInit(tableUrl,cond) {
                 }
         },
         columns: [{
-            field: 'schoolname',
+            field: 'checkbox',
+            checkbox: true,
+            visible: true               //是否显示复选框
+        }, {
+            field: 'companyName',
             title: '企业名称',
             width:300
         }, {
-            field: 'provincename',
+            field: 'companyNumber',
             title: '企业资质',
             width:100
         }, {
-            field: 'briefintroduction',
+            field: 'companyBriefintroduction',
             title: '企业简介',
             width:300
         }, {
@@ -102,7 +106,7 @@ function tableInit(tableUrl,cond) {
             title: '地址',
             width:300
         }, {
-            field: 'ID',
+            field: 'filePath',
             title: '相关文档',
             width: 220,
             align: 'center',
@@ -110,8 +114,9 @@ function tableInit(tableUrl,cond) {
             formatter: function (value, row, index) {
                 //通过formatter可以自定义列显示的内容
                 //value：当前field的值，即id
-                //row：当前行的数据
-                let a = '<a href="#">下载</a>';
+                //row：当前行的数据;
+                let a = '<a href="File/a.txt" download="a.txt" id="fileUpload">下载</a>';
+                    // this.href = checkboxTable[0].filepath;
                 // let b = '<a href="#" onclick="openAllModal()" id="check-allproblem" data-target="#allproblem" data-toggle="modal">修改</a>';
                 // let c = '<a href="#" onclick="openDeleteModal()">删除</a>';
                 return a;
@@ -139,6 +144,13 @@ function tableInit(tableUrl,cond) {
 
         }
     });
+}
+
+
+function upload() {
+    var href = $("#fileUpload").attr("href");
+    href = encodeURI(href);
+    $("#fileUpload").attr("href",href);
 }
 
 /**
@@ -195,39 +207,39 @@ $("#school-input-search").val('');
  *@author zhangziteng
  */
 function AddSchool() {
-    if ($("#school-modal-title").html() == "<h3>创建学校名称</h3>") {
-        //创建
-        ADDSCHOOL = {
-            "schoolname": $("#add-input-school").val(),
-            "phone": $("#add-input-phone").val(),
-            "address": $("#add-input-address").val(),
-            "briefintroduction": $("#add-input-introduction").val(),
-            "userLoginRole": LOGIN_INFO.userLoginRole
-        };
-
-        $.ajax({
-            url: INSERT_SCHOOL_URL,
-            type: requestJson ? 'get' : 'post',
-            data: JSON.stringify(ADDSCHOOL),
-            dataType: "json",
-            contentType: "application/json;charset=utf-8",
-            success: function () {
-                poptip.alert(POP_TIP.addSuccess);
-                $("#add-school-modal").modal("hide");
-                $('#school-table-all').bootstrapTable("refresh");
-            }
-        })
-    }
-    if ($("#school-modal-title").html() == "<h3>修改学校名称</h3>") {
+    // if ($("#school-modal-title").html() == "<h3>创建学校名称</h3>") {
+    //     //创建
+    //     ADDSCHOOL = {
+    //         "schoolname": $("#add-input-school").val(),
+    //         "phone": $("#add-input-phone").val(),
+    //         "address": $("#add-input-address").val(),
+    //         "briefintroduction": $("#add-input-introduction").val(),
+    //         "userLoginRole": LOGIN_INFO.userLoginRole
+    //     };
+    //
+    //     $.ajax({
+    //         url: INSERT_SCHOOL_URL,
+    //         type: requestJson ? 'get' : 'post',
+    //         data: JSON.stringify(ADDSCHOOL),
+    //         dataType: "json",
+    //         contentType: "application/json;charset=utf-8",
+    //         success: function () {
+    //             poptip.alert(POP_TIP.addSuccess);
+    //             $("#add-school-modal").modal("hide");
+    //             $('#school-table-all').bootstrapTable("refresh");
+    //         }
+    //     })
+    // }
+    if ($("#school-modal-title").html() == "<h3>修改企业名称</h3>") {
         //修改
         let checkboxTable = $("#school-table-all").bootstrapTable('getSelections');
         UPDATESCHOOL = {
-            "schoolkey": checkboxTable[0].schoolkey,
-            "schoolname": $("#add-input-school").val(),
+            "companyKey": checkboxTable[0].companyKey,
+            "companyName": $("#add-input-school").val(),
             "phone": $("#add-input-phone").val(),
             "address": $("#add-input-address").val(),
-            "briefintroduction": $("#add-input-introduction").val(),
-            "userLoginRole": LOGIN_INFO.userLoginRole
+            "companyBriefintroduction": $("#add-input-introduction").val(),
+            // "userLoginRole": LOGIN_INFO.userLoginRole
         };
         $.ajax({
             url: UPDATE_SCHOOL_URL,
@@ -236,10 +248,11 @@ function AddSchool() {
             dataType: "json",
             contentType: "application/json;charset=utf-8",
             success: function (data) {
-                if (data.data == "学校名称已存在") {
-                    poptip.alert("学校名称已存在");
-                } else {
+                if (data.ok) {
                     poptip.alert(POP_TIP.updateSuccess);
+                    // poptip.alert("企业名称已存在");
+                } else {
+                    poptip.alert(POP_TIP.updateFail);
                     $("#add-school-modal").modal("hide");
                     $('#school-table-all').bootstrapTable("refresh");
                 }
@@ -279,11 +292,11 @@ function AlterSchoolModal() {
     }
 
 
-    $("#school-modal-title").html('<h3>修改学校名称</h3>');
-    $("#add-input-school").val(checkboxTable[0].schoolname);
+    $("#school-modal-title").html('<h3>修改企业名称</h3>');
+    $("#add-input-school").val(checkboxTable[0].companyName);
     $("#add-input-phone").val(checkboxTable[0].phone);
     $("#add-input-address").val(checkboxTable[0].address);
-    $("#add-input-introduction").val(checkboxTable[0].briefintroduction);
+    $("#add-input-introduction").val(checkboxTable[0].companyBriefintroduction);
     $("#add-school-modal").modal("show");
     $(".alert-warn").text("");
 
@@ -295,7 +308,7 @@ function AlterSchoolModal() {
  *@author zhangziteng
  */
 
-function DeleteSchool(){
+function DeleteSchool() {
     let checkboxTable = $("#school-table-all").bootstrapTable('getSelections');
     if (checkboxTable.length <= 0) {
         poptip.alert(POP_TIP.choiceOne)
@@ -309,12 +322,7 @@ function DeleteSchool(){
 
     let dataObj = JSON.stringify({
         // "userLoginRole":
-        "schoolkey": checkboxTable[0].schoolkey,
-        "schoolname": checkboxTable[0].schoolname,
-        "phone": checkboxTable[0].phone,
-        "address":checkboxTable[0].address,
-        "briefintroduction":checkboxTable[0].briefintroduction,
-        "userLoginRole": LOGIN_INFO.userLoginRole
+        "companyKey": checkboxTable[0].companyKey,
     });
 
     console.log(dataObj)
