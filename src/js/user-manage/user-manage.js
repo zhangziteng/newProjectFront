@@ -82,9 +82,31 @@ $("#input-id").fileinput({
  *@author zhangziteng
  */
 function saveinfomation() {
-    var selected = $("#basicinfo-input-realname").select2('data');
-    console.log(selected);
+    // var selected = $("#basicinfo-input-realname").select2('data');
+    // console.log(selected);
     $("#basicinfo-input-idcardnumber").attr("disabled",true);
+    $.ajax({
+        url: AJAX_URL.insertUserManage,
+        type: requestJson ? 'get' : 'post',
+        data: {
+            companyType:$("#basicinfo-input-realname").select2('data'),
+            companyName:$("#basicinfo-input-age").val(),
+            companyNumber:$("#basicinfo-input-idcardnumber").val(),
+            briefintroduction:$("#add-input-introduction").val(),
+            phone:$("#basicinfo-input-phonenumber").val(),
+            provinceName:$("#basicinfo-radio input[name='basicinfo-radio-sex']:checked").val()
+        },
+        dataType: "json",
+        // contentType: "application/json;charset=utf-8",
+        success: function (result) {
+            console.log(result)
+            if (result.ok) {
+                poptip.alert(POP_TIP.addSuccess);
+            } else {
+                poptip.alert(data.message);
+            }
+        }
+    })
 }
 // /**
 //  * @Desc 模态框（创建用户）

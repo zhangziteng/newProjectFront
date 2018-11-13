@@ -121,7 +121,7 @@ const AJAX_URL = {
     //用户管理(删除) 刘志杰 2018-10-09
     deleteUserManage: requestJson ? '' : requestUrl + "api/generate/userinformation/deleteUserInfo",
     //用户管理(新增) 刘志杰 2018-10-09
-    insertUserManage: requestJson ? '' : requestUrl + "api/generate/userinformation/createUserInfo",
+    insertUserManage: requestJson ? '' : requestUrl + "api/generate/companyinfo/addCompanyInfo",
     //用户管理(修改) 刘志杰 2018-10-09
     updateUserManage: requestJson ? '' : requestUrl + "api/generate/userinformation/updateUserInfo",
     /*==============================发布管理=========================================*/

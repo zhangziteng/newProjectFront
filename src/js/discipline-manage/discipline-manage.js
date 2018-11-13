@@ -6,9 +6,9 @@
 
 var UPDATEDISCIPLINE = {};    //修改时 选择的用户信息
 var ADDDISCIPLINE = {};       //创建时 填写的用户信息
-var SELECT_DISCIPLINE_URL = requestJson ? AJAX_URL.recruitPlanData : requestUrl + "api/generate/majorinformation/queryMajorInfoByPage"; //url地址 分页查询
+var SELECT_DISCIPLINE_URL = requestJson ? AJAX_URL.recruitPlanData : requestUrl + "api/generate/projectinfo/queryByPage"; //url地址 分页查询
 var DELETE_DISCIPLINE_URL = requestUrl + "api/generate/majorinformation/deleteMajorInfo"; //url地址 删除
-var INSERT_DISCIPLINE_URL = requestUrl + "api/generate/majorinformation/majorInfoAdd"; //url地址 新增
+var INSERT_DISCIPLINE_URL = requestUrl + "api/generate/projectinfo/addProject"; //url地址 新增
 var UPDATE_DISCIPLINE_URL = requestUrl + "api/generate/majorinformation/updateMajorInfo"; //url地址 修改
 var CHECK_DISCIPLINE_URL = requestUrl + "api/generate/majorinformation/queryMajorInfoByPage"; //url地址 模糊
 var LOGIN_INFO = {
@@ -85,38 +85,38 @@ function tableInit(tableUrl,cond) {
             checkbox: true,
             visible: true                  //是否显示复选框
         }, {
-            field: 'majorname',
+            field: 'projectName',
             title: '项目名称',
             width:200
         },{
-            field: 'majorname',
+            field: 'projectType',
             title: '项目类型',
             width:200
         },{
-            field: 'majorname',
+            field: 'projectBudget',
             title: '项目预算（元）',
             width:200
         },{
-            field: 'majorname',
+            field: 'recruitQuestion',
             title: '招募要求',
             width:300
         },{
             field: 'majorname',
             title: '相关文档',
-            width:200,
+            width:100,
             align: 'center',
             valign: 'middle',
             formatter:function(value,row,index){
                     //通过formatter可以自定义列显示的内容
                     //value：当前field的值，即id
                     //row：当前行的数据
-                    let a = '<a href="#" onclick="openContinueModal()">下载</a>';
+                    let a = '<a style="color: #00b3ee;" onclick="openContinueModal()">下载</a>';
                     return a;
                 }
         },{
-            field: 'createtime',
+            field: 'createTime',
             title: '创建时间',
-            width:100,
+            width:200,
             formatter:function(value) {
                 if (value != null) {
                     return getMyDate(value);
@@ -207,11 +207,14 @@ function AlterDisciplineModal() {
  *@author zhangziteng
  */
 function AddDiscipline() {
-    if ($("#discipline-modal-title").html() == "<h3>创建专业名称</h3>") {
+    if ($("#discipline-modal-title").html() == "<h3>创建项目</h3>") {
         //创建
         ADDDISCIPLINE = {
-            "majorname": $("#add-input-discipline").val(),
-            "userLoginRole": LOGIN_INFO.userLoginRole
+            projectName: $("#basicinfo-input-age").val(),
+            // projectType: LOGIN_INFO.userLoginRole,
+            recruitQuestion:$("#add-input-recruit").val(),
+            briefintroduction:$("#add-input-introduction").val(),
+            projectBudget:$("#basicinfo-input-idcardnumber").val()
         };
 
         $.ajax({

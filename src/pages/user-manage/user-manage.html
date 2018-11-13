@@ -60,13 +60,13 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label required" style="top: 5px;">选择您招募的开发者类型 </label>
                             <div class="col-sm-5">
-                                <div class="radio">
+                                <div class="radio" id="basicinfo-radio">
                                     <label class="radio-inline">
-                                        <input type="radio" name="basicinfo-radio-sex" value="团队" >招募团队（金额需大于10000元）
+                                        <input type="radio" name="basicinfo-radio-sex" value="0" >招募团队（金额需大于10000元）
                                     </label>
                                     <br>
                                     <label class="radio-inline">
-                                        <input type="radio" name="basicinfo-radio-sex" value="个人">招募个人（金额需小于50000元）
+                                        <input type="radio" name="basicinfo-radio-sex" value="1">招募个人（金额需小于50000元）
                                     </label>
                                 </div>
 
@@ -77,7 +77,7 @@
                             <div class="col-sm-5">
                                 <input type="text" class="form-control need-check not-null"
                                        regex="number"
-                                       maxlength="2" id="basicinfo-input-age"
+                                       maxlength="20" id="basicinfo-input-age"
                                        placeholder="请输入年龄">
                                 <span class="alert-warn"></span>
                             </div>
