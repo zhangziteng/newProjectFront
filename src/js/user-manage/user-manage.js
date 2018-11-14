@@ -92,7 +92,7 @@ function saveinfomation() {
             companyType:$("#basicinfo-input-realname").select2('data'),
             companyName:$("#basicinfo-input-age").val(),
             companyNumber:$("#basicinfo-input-idcardnumber").val(),
-            briefintroduction:$("#add-input-introduction").val(),
+            companyBriefintroduction:$("#add-input-introduction").val(),
             phone:$("#basicinfo-input-phonenumber").val(),
             provinceName:$("#basicinfo-radio input[name='basicinfo-radio-sex']:checked").val()
         },
