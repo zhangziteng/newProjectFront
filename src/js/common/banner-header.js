@@ -3,20 +3,20 @@
  *@date 2018/10/22 10:54:30
  *@author zhangziteng
  */
-
+var userinfo = JSON.parse(sessionStorage.getItem("user-info"));
 /**
  *@desc 刘志杰初始化
  *@date 2018/10/26 14:17:58
  *@author zhangziteng
  */
 $(function () {
-    if (JSON.parse(sessionStorage.getItem("user-info")) != null) {
-        switch (JSON.parse(sessionStorage.getItem("user-info")).data.data) {
+    if (userinfo != null) {
+        switch (userinfo.data.data[0].userRole) {
             case "1":
-                $("#nav-role").text("需求方xxx");
+                $("#nav-role").text(userinfo.data.data[0].realname);
                 break;
             case "0":
-                $("#nav-role").text("管理员");
+                $("#nav-role").text(userinfo.data.data[0].realname);
                 break;
         }
     }

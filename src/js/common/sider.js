@@ -38,7 +38,7 @@ $(function() {
 
     //通过权限，显示模块 by 刘志杰
     if (JSON.parse(sessionStorage.getItem("user-info"))) {
-    switch (JSON.parse(sessionStorage.getItem("user-info")).data.data) {
+    switch (JSON.parse(sessionStorage.getItem("user-info")).data.data[0].userRole) {
         case "1": //需求方
             $("li[name='UserManage']").css("display", "block");
             $("li[name='DisciplineManage']").css("display", "block");
