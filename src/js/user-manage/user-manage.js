@@ -1,6 +1,6 @@
 var FILE_UP = requestUrl + "api/generate/companyinfo/addCompanyInfo"; //文件下载
 //用户管理 刘志杰 2018-10-09
-const LOGIN_INFO =  JSON.parse(sessionStorage.getItem("user-info"));//登录的用户信息
+const LOGIN_INFO = JSON.parse(sessionStorage.getItem("user-info"));//登录的用户信息
 
 var user_condition = {} //条件查询的内容
 /**
@@ -50,24 +50,24 @@ $(function () {
  *@author zhangziteng
  */
 $("#input-id").fileinput({
-    language:'zh', //设置语言
-    uploadUrl:AJAX_URL.selectUserManag, //上传的地址
+    language: 'zh', //设置语言
+    uploadUrl: AJAX_URL.selectUserManag, //上传的地址
     // allowedFileExtensions: ['docx', 'gif', 'png'],//接收的文件后缀
     //uploadExtraData:{"id": 1, "fileName":'123.mp3'},
     uploadAsync: false, //默认异步上传
-    showUpload:true, //是否显示上传按钮
-    showRemove :true, //显示移除按钮
-    showPreview :false, //是否显示预览
-    showCaption:false,//是否显示标题
-    browseClass:"btn btn-primary", //按钮样式    
+    showUpload: true, //是否显示上传按钮
+    showRemove: true, //显示移除按钮
+    showPreview: false, //是否显示预览
+    showCaption: false,//是否显示标题
+    browseClass: "btn btn-primary", //按钮样式    
     dropZoneEnabled: false,//是否显示拖拽区域
     //minImageWidth: 50, //图片的最小宽度
     //minImageHeight: 50,//图片的最小高度
     //maxImageWidth: 1000,//图片的最大宽度
     //maxImageHeight: 1000,//图片的最大高度
-    maxFileSize:1024,//单位为kb，如果为0表示不限制文件大小
+    maxFileSize: 1024,//单位为kb，如果为0表示不限制文件大小
     //minFileCount: 0,
-    maxFileCount:2, //表示允许同时上传的最大文件个数
+    maxFileCount: 2, //表示允许同时上传的最大文件个数
     // validateInitialCount:true,
     previewFileIcon: "<iclass='glyphicon glyphicon-king'></i>",
     msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！"
@@ -83,22 +83,30 @@ $("#input-id").fileinput({
  *@author zhangziteng
  */
 function saveinfomation() {
-    // var selected = $("#basicinfo-input-realname").select2('data');
-    // console.log(selected);
-    $("#basicinfo-input-idcardnumber").attr("disabled",true);
+    var selected = $("#basicinfo-input-realname").select2('data');
+    //将数组转换成字符串，并用逗号隔开
+    var html = '';
+    $.each(selected, function (i) { //遍历数组，将数组中的值加到字符串中
+        html += selected[i].text + ',';
+    })
+    console.log(html.charAt(html.length - 1));
+    var str = html.substring(0, html.length - 1);
+    console.log(str);
+
+    $("#basicinfo-input-idcardnumber").attr("disabled", true);
     $.ajax({
         url: AJAX_URL.insertUserManage,
         type: requestJson ? 'get' : 'post',
-        data: {
-            companyType:$("#basicinfo-input-realname").select2('data'),
-            companyName:$("#basicinfo-input-age").val(),
-            companyNumber:$("#basicinfo-input-idcardnumber").val(),
-            briefintroduction:$("#add-input-introduction").val(),
-            phone:$("#basicinfo-input-phonenumber").val(),
-            provinceName:$("#basicinfo-radio input[name='basicinfo-radio-sex']:checked").val()
-        },
+        data: JSON.stringify({
+            companyType: str,
+            companyName: $("#basicinfo-input-age").val(),
+            companyNumber: $("#basicinfo-input-idcardnumber").val(),
+            companyBriefintroduction: $("#add-input-introduction").val(),
+            phone: $("#basicinfo-input-phonenumber").val(),
+            developerType: $("#basicinfo-radio input[name='basicinfo-radio-sex']:checked").val()
+        }),
         dataType: "json",
-        // contentType: "application/json;charset=utf-8",
+        contentType: "application/json;charset=utf-8",
         success: function (result) {
             console.log(result)
             if (result.ok) {
@@ -109,6 +117,7 @@ function saveinfomation() {
         }
     })
 }
+
 // /**
 //  * @Desc 模态框（创建用户）
 //  * @Author 刘志杰

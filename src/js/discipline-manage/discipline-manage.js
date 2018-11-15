@@ -7,17 +7,17 @@
 var UPDATEDISCIPLINE = {};    //修改时 选择的用户信息
 var ADDDISCIPLINE = {};       //创建时 填写的用户信息
 var SELECT_DISCIPLINE_URL = requestJson ? AJAX_URL.recruitPlanData : requestUrl + "api/generate/projectinfo/queryByPage"; //url地址 分页查询
-var DELETE_DISCIPLINE_URL = requestUrl + "api/generate/majorinformation/deleteMajorInfo"; //url地址 删除
+var DELETE_DISCIPLINE_URL = requestUrl + "api/generate/projectinfo/deleteProject"; //url地址 删除
 var INSERT_DISCIPLINE_URL = requestUrl + "api/generate/projectinfo/addProject"; //url地址 新增
-var UPDATE_DISCIPLINE_URL = requestUrl + "api/generate/majorinformation/updateMajorInfo"; //url地址 修改
-var CHECK_DISCIPLINE_URL = requestUrl + "api/generate/majorinformation/queryMajorInfoByPage"; //url地址 模糊
+var UPDATE_DISCIPLINE_URL = requestUrl + "api/generate/projectinfo/updateProject"; //url地址 修改
+var CHECK_DISCIPLINE_URL = requestUrl + "api/generate/projectinfo/queryByPage"; //url地址 模糊
 var LOGIN_INFO = {
     //登录的用户信息
     "userLoginRole": 1
 };
 $(function () {
-    tableInit(SELECT_DISCIPLINE_URL,'');
-    $("#basicinfo-input-realname").select2();
+    tableInit(SELECT_DISCIPLINE_URL, '');
+    // $("#basicinfo-input-realname").select2();
 });
 
 /**
@@ -26,7 +26,7 @@ $(function () {
  *@author zhangziteng
  */
 
-function tableInit(tableUrl,cond) {
+function tableInit(tableUrl, cond) {
     $('#discipline-table-all').bootstrapTable({
         url: tableUrl,
         method: requestJson ? 'get' : 'post',                      //请求方式（*）
@@ -37,14 +37,14 @@ function tableInit(tableUrl,cond) {
         cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
         pagination: true,                   //是否显示分页（*）
         // paginationHAlign:'center',       //分页水平位置
-        paginationDetailHAlign:"right",      //分页详细信息位置
-        sortName:'BirthDate',                //排序的数据字段名
+        paginationDetailHAlign: "right",      //分页详细信息位置
+        sortName: 'BirthDate',                //排序的数据字段名
         sortable: true,                     //是否启用排序
         sortOrder: "desc",                   //排序方式
         sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
         pageNumber: 1,                      //初始化加载第一页，默认第一页,并记录
         pageSize: 5,                     //每页的记录行数（*）
-        pageList: [5,10],                   //可供选择的每页的行数（*）
+        pageList: [5, 10],                   //可供选择的每页的行数（*）
         search: false,                      //是否显示表格搜索
         strictSearch: true,
         //showColumns: true,                  //是否显示所有的列（选择显示的列）
@@ -57,15 +57,15 @@ function tableInit(tableUrl,cond) {
         cardView: false,                    //是否显示详细视图
         detailView: false,                  //是否显示父子表
         //得到查询的参数
-        queryParams : function (params) {
+        queryParams: function (params) {
             //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
             var temp;
             if (cond == "condition") {
                 temp = {
                     rows: params.limit,                         //页面大小
-                    majorname: $("#discipline-input-search").val(),
+                    projectName: $("#discipline-input-search").val(),
                     page: (params.offset / params.limit) + 1,   //页码
-                    pageSize:5,
+                    pageSize: 5,
                     sort: params.sort,      //排序列名
                     sortOrder: params.order //排位命令（desc，asc）
                 };
@@ -74,7 +74,7 @@ function tableInit(tableUrl,cond) {
                 temp = {
                     rows: params.limit,                         //页面大小
                     page: (params.offset / params.limit) + 1,   //页码
-                    pageSize:5,
+                    pageSize: 5,
                     sort: params.sort,      //排序列名
                     sortOrder: params.order //排位命令（desc，asc）
                 };
@@ -87,37 +87,37 @@ function tableInit(tableUrl,cond) {
         }, {
             field: 'projectName',
             title: '项目名称',
-            width:200
-        },{
+            width: 200
+        }, {
             field: 'projectType',
             title: '项目类型',
-            width:200
-        },{
+            width: 200
+        }, {
             field: 'projectBudget',
             title: '项目预算（元）',
-            width:200
-        },{
+            width: 200
+        }, {
             field: 'recruitQuestion',
             title: '招募要求',
-            width:300
-        },{
+            width: 300
+        }, {
             field: 'majorname',
             title: '相关文档',
-            width:100,
+            width: 100,
             align: 'center',
             valign: 'middle',
-            formatter:function(value,row,index){
-                    //通过formatter可以自定义列显示的内容
-                    //value：当前field的值，即id
-                    //row：当前行的数据
-                    let a = '<a style="color: #00b3ee;" onclick="openContinueModal()">下载</a>';
-                    return a;
-                }
-        },{
+            formatter: function (value, row, index) {
+                //通过formatter可以自定义列显示的内容
+                //value：当前field的值，即id
+                //row：当前行的数据
+                let a = '<a style="color: #00b3ee;" onclick="openContinueModal()">下载</a>';
+                return a;
+            }
+        }, {
             field: 'createTime',
             title: '创建时间',
-            width:200,
-            formatter:function(value) {
+            width: 200,
+            formatter: function (value) {
                 if (value != null) {
                     return getMyDate(value);
                 }
@@ -155,7 +155,7 @@ function tableInit(tableUrl,cond) {
  */
 function SearchPlan() {
     $('#discipline-table-all').bootstrapTable("destroy");
-    tableInit(CHECK_DISCIPLINE_URL,"condition");
+    tableInit(CHECK_DISCIPLINE_URL, "condition");
 }
 
 /**
@@ -164,7 +164,7 @@ function SearchPlan() {
  *@author zhangziteng
  */
 function ResetPlanInput() {
-$('#discipline-input-search').val('');
+    $('#discipline-input-search').val('');
 }
 
 /**
@@ -196,8 +196,12 @@ function AlterDisciplineModal() {
 
 
     $("#discipline-modal-title").html('<h3>修改项目</h3>');
-    $("#add-input-discipline").val(checkboxTable[0].majorname);
-    $("#add-input-key").val(checkboxTable[0].majorkey);
+    $("#basicinfo-input-realname").val(checkboxTable[0].projectType);
+    $("#basicinfo-input-age").val(checkboxTable[0].projectName);
+    $("#basicinfo-input-idcardnumber").val(checkboxTable[0].projectBudget);
+    $("#add-input-introduction").val(checkboxTable[0].briefintroduction);
+    $("#add-input-recruit").val(checkboxTable[0].recruitQuestion);
+
     $("#add-discipline-modal").modal("show");
 }
 
@@ -210,11 +214,12 @@ function AddDiscipline() {
     if ($("#discipline-modal-title").html() == "<h3>创建项目</h3>") {
         //创建
         ADDDISCIPLINE = {
+            projectType: $("#basicinfo-input-realname").val(),
             projectName: $("#basicinfo-input-age").val(),
-            // projectType: LOGIN_INFO.userLoginRole,
-            recruitQuestion:$("#add-input-recruit").val(),
-            briefintroduction:$("#add-input-introduction").val(),
-            projectBudget:$("#basicinfo-input-idcardnumber").val()
+            projectBudget: $("#basicinfo-input-idcardnumber").val(),
+            briefintroduction: $("#add-input-introduction").val(),
+            recruitQuestion: $("#add-input-recruit").val(),
+
         };
 
         $.ajax({
@@ -224,19 +229,26 @@ function AddDiscipline() {
             dataType: "json",
             contentType: "application/json;charset=utf-8",
             success: function (data) {
-                poptip.alert(POP_TIP.addSuccess);
-                $("#add-discipline-modal").modal("hide");
-                $('#discipline-table-all').bootstrapTable("refresh");
+                if (data.ok) {
+                    poptip.alert(POP_TIP.addSuccess);
+                    $("#add-discipline-modal").modal("hide");
+                    $('#discipline-table-all').bootstrapTable("refresh");
+                } else {
+                    poptip.alert(POP_TIP.addFail);
+                }
             }
         })
     }
-    if ($("#discipline-modal-title").text() == "修改专业名称") {
+    if ($("#discipline-modal-title").text() == "修改项目") {
         // 修改
         let checkboxTable = $("#discipline-table-all").bootstrapTable('getSelections');
         UPDATEDISCIPLINE = {
-            "majorkey": checkboxTable[0].majorkey,
-            "majorname": $("#add-input-discipline").val(),
-            "userLoginRole": LOGIN_INFO.userLoginRole
+            projectKey: checkboxTable[0].projectKey,
+            projectType: $("#basicinfo-input-realname").val(),
+            projectName: $("#basicinfo-input-age").val(),
+            projectBudget: $("#basicinfo-input-idcardnumber").val(),
+            briefintroduction: $("#add-input-introduction").val(),
+            recruitQuestion: $("#add-input-recruit").val()
         };
         $.ajax({
             url: UPDATE_DISCIPLINE_URL,
@@ -248,9 +260,14 @@ function AddDiscipline() {
                 if (data.message == "专业名称已存在") {
                     poptip.alert("专业名称已存在");
                 } else {
-                    poptip.alert(POP_TIP.updateSuccess);
-                    $("#add-discipline-modal").modal("hide");
-                    $('#discipline-table-all').bootstrapTable("refresh");
+                    if (data.ok) {
+                        poptip.alert(POP_TIP.updateSuccess);
+                        $("#add-discipline-modal").modal("hide");
+                        $('#discipline-table-all').bootstrapTable("refresh");
+                    } else {
+                        poptip.alert(POP_TIP.updateFail);
+                    }
+
                 }
             }
         })
@@ -277,8 +294,8 @@ function DeleteDiscipline() {
     console.log(checkboxTable[0].majorkey);
     let dataObj = {
         // "userLoginRole": LOGIN_INFO.userLoginRole,
-        "majorkey": checkboxTable[0].majorkey,
-        "userLoginRole": LOGIN_INFO.userLoginRole
+        projectKey: checkboxTable[0].projectKey
+        // "userLoginRole": LOGIN_INFO.userLoginRole
     };
 
     console.log(dataObj)
@@ -290,13 +307,19 @@ function DeleteDiscipline() {
             $.ajax({
                 url: DELETE_DISCIPLINE_URL,
                 type: requestJson ? 'get' : 'post',
-                data: JSON.stringify(dataObj),
+                data: JSON.stringify({
+                    projectKey: checkboxTable[0].projectKey
+                }),
                 dataType: "json",
                 contentType: "application/json;charset=utf-8",
                 success: function (data) {
-                    poptip.alert(POP_TIP.deleteSuccess);
-                    console.log(data);
-                    $('#discipline-table-all').bootstrapTable("refresh");
+                    if (data.ok) {
+                        poptip.alert(POP_TIP.deleteSuccess);
+                        console.log(data);
+                        $('#discipline-table-all').bootstrapTable("refresh");
+                    } else {
+                        poptip.alert(POP_TIP.deleteFail);
+                    }
                 }
             });
             poptip.close();
