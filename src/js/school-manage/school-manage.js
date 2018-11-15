@@ -116,7 +116,7 @@ function tableInit(tableUrl,cond) {
                 //通过formatter可以自定义列显示的内容
                 //value：当前field的值，即id
                 //row：当前行的数据;
-                let a = '<a href="' + value + '" style="color: #00b3ee;" download="a.txt" id="fileUpload">下载</a>';
+
                 let b = '<button type="button" class="btn btn-success" onclick="fileLoad(\'' + value + '\')"  style="padding: 6px 20px;">下载</button>'
 
                 return b;

@@ -5,6 +5,7 @@ var INSERT_ADMINPLAN_URL = requestUrl + "api/generate/demandvolunteerinformation
 var UPDATE_ADMINPLAN_URL = requestUrl + "api/generate/demandvolunteerinformation/updateDemandvolunteerinformation"; //url地址 修改
 var SELECT_COMPANYNAME_URL = requestUrl + "api/generate/companyinfo/queryByPage" //获取所有企业信息
 var SELECT_PROJECT_URL = requestUrl + "api/generate/projectinfo/queryByPage" //获取所有项目
+var FILE_DOWN = requestUrl + "api/generate/companyinfo/CompanyInfoFileDown"; //文件下载
 
 
 
@@ -156,8 +157,9 @@ function tableInit(tableUrl,cond) {
             title: '相关文档',
             width:300,
             formatter: function (valve,row,index) {
-                let a = "<a href='#' style='color: #1d7db1;'>下载</a>"
-                return a;
+                let b = '<button type="button" class="btn btn-success" onclick="fileLoad(\'' + valve + '\')"  style="padding: 6px 20px;">下载</button>'
+
+                return b;
             }
         },{
             field: 'recruitQuestion',
@@ -538,5 +540,9 @@ $("#reset-button").click(function () {
     $("input[name='SSK']").val("");
 })
 
+function fileLoad(path) {
+    console.log(path)
+    window.open(FILE_DOWN + "?filePath=" + path);
 
+}
 
