@@ -268,7 +268,8 @@ $("#reset-button").click(function () {
 */
 laydate.render({
     elem: '#update-input-offlinetime',
-    type: 'datetime'
+    value: new Date(),
+    min:'2018-11-16'
 })
 
 function fileLoad(path) {
