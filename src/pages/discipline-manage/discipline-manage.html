@@ -72,19 +72,14 @@
                             <label for="basicinfo-input-realname"
                                    class="col-sm-3 control-label required">项目类型 </label>
                             <div class="col-sm-5">
-                                <select id="basicinfo-input-realname" class="form-control" style="width: 150%;" multiple="multiple">
-                                    <option value="2">电商</option>
-                                    <option value="0">P2P金融</option>
-                                    <option value="1">爬虫</option>
-                                    <option value="2">医疗O2O</option>
-                                    <option value="0">旅游020</option>
-                                    <option value="1">餐饮生鲜020</option>
-                                    <option value="2">运动类O2O</option>
-                                    <option value="0">直播</option>
-                                    <option value="1">内容管理CMS</option>
-                                    <option value="2">教育</option>
-                                    <option value="0">交通</option>
-                                    <option value="1">智能硬件</option>
+                                <select id="basicinfo-input-realname" class="form-control" style="width: 150%;">
+                                    <option selected>请选择项目类型</option>
+                                    <option value="Web网站">Web网站</option>
+                                    <option value="APP开发">APP开发</option>
+                                    <option value="微信公众号">微信公众号</option>
+                                    <option value="小程序">小程序</option>
+                                    <option value="HTML5应用">HTML5应用</option>
+                                    <option value="其他项目">其他项目</option>
                                 </select>
                             </div>
                         </div>
@@ -99,7 +94,7 @@
                         </div>
                         <div class="form-group">
                             <label for="basicinfo-input-idcardnumber"
-                                   class="col-sm-3 control-label required">企业预算</label>
+                                   class="col-sm-3 control-label required">项目预算</label>
                             <div class="col-sm-5">
                                 <div class="input-group" style="width: 260px;">
                                     <input type="text" class="form-control need-check" placeholder="个人项目金额小于50000" maxlength="10" id="basicinfo-input-idcardnumber" aria-describedby="basic-addon2">
