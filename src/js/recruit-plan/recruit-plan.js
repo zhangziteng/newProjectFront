@@ -157,7 +157,7 @@ function tableInit(tableUrl,cond) {
             title: '相关文档',
             width:300,
             formatter: function (valve,row,index) {
-                let b = '<button type="button" class="btn btn-success" onclick="fileLoad(\'' + valve + '\')"  style="padding: 6px 20px;">下载</button>'
+                let b = '<button type="button" class="btn btn-success" onclick="fileLoad(\'' + valve + '\')"  style="padding: 3px 15px;">下载</button>'
 
                 return b;
             }

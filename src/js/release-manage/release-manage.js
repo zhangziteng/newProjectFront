@@ -197,7 +197,10 @@ function openModel() {
     if (checkboxTable.length <= 0) {
         poptip.alert(POP_TIP.choiceOne)
         return 0;
-    }
+    }else if (checkboxTable.length > 1) {
+        poptip.alert(POP_TIP.choiceOnlyOne)
+        return 0;
+    };
     $("#my-modal").modal("show");
 }
 /**
