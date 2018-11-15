@@ -50,21 +50,33 @@ function tableInit(tableUrl,cond) {
             //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
             var temp
 
-            if (cond == "all") {
+            if (cond == "condition") {
                 temp = {
-                    "pageSize": params.limit,                         //页面大小
-                    "page": (params.offset / params.limit) + 1,   //页码
+                    // "pageSize": params.limit,                         //页面大小
+                    // "page": (params.offset / params.limit) + 1,   //页码
+                    // pageSize:5,
+                    rows: params.limit,                         //页面大小
+                    companyName: $("#select-input-schName").val(),
+                    projectName: $("#select-input-majName").val(),
+                    projectType: $("#select-projectType").val(),
+                    page: (params.offset / params.limit) + 1,   //页码
                     pageSize:5,
+                    sort: params.sort,      //排序列名
+                    sortOrder: params.order //排位命令（desc，asc）
                 };
-            } else if (cond == "condition") {
+                return JSON.stringify(temp);
+            } else if (cond == "all") {
 
                 temp = {
-                    "pageSize": params.limit,                         //页面大小
-                    "page": (params.offset / params.limit) + 1,
-                    "projectName":$("#select-input-schName").val(),
+                    // "pageSize": params.limit,                         //页面大小
+                    // "page": (params.offset / params.limit) + 1,
+                    // "projectName":$("#select-input-schName").val(),
+                    // pageSize:5,
+                    rows: params.limit,                         //页面大小
+                    page: (params.offset / params.limit) + 1,   //页码
                     pageSize:5,
-                    // "schoolkey":$("#select-input-schName").val(),
-                    // "majorkey":$("#select-input-majName").val()
+                    sort: params.sort,      //排序列名
+                    sortOrder: params.order //排位命令（desc，asc）
                 }
             }
             return JSON.stringify(temp);
@@ -72,14 +84,18 @@ function tableInit(tableUrl,cond) {
         columns: [{
             field: 'checkbox',
             checkbox: true,
-            visible: true               //是否显示复选框
-        }, {
+            visible: true//是否显示复选框
+        },{
+                field: 'companyName',
+                title: '公司名称',
+                width:200
+        },{
             field: 'projectName',
             title: '项目名称',
             width:200
         },{
             field: 'projectType',
-            title: '项目行业',
+            title: '项目类型',
             width:200
         }, {
             field: 'projectBudget',
