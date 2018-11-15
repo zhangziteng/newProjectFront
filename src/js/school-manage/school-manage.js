@@ -8,6 +8,7 @@ var ADDSCHOOL = {}        //创建时 填写的用户信息
 // var schoolname = "";
 var SELECT_SCHOOL_URL = requestJson ? AJAX_URL.recruitPlanData : requestUrl + "api/generate/companyinfo/queryByPage"; //url地址 分页查询
 var DELETE_SCHOOL_URL = requestUrl + "api/generate/companyinfo/deleteCompanyInfo"; //url地址 删除
+var FILE_DOWN = requestUrl + "api/generate/companyinfo/CompanyInfoFileDown"; //文件下载
 // var INSERT_SCHOOL_URL = requestUrl + "api/generate/schoolinformation/addSchoolInfo"; //url地址 新增
 var UPDATE_SCHOOL_URL = requestUrl + "api/generate/companyinfo/updateCompanyInfo"; //url地址 修改
 var CHACK_SCHOOL_URL = requestUrl + "api/generate/companyinfo/queryByPage"; //url地址 模糊
@@ -115,11 +116,10 @@ function tableInit(tableUrl,cond) {
                 //通过formatter可以自定义列显示的内容
                 //value：当前field的值，即id
                 //row：当前行的数据;
-                let a = '<a href="File/a.txt" style="color: #00b3ee;" download="a.txt" id="fileUpload">下载</a>';
-                    // this.href = checkboxTable[0].filepath;
-                // let b = '<a href="#" onclick="openAllModal()" id="check-allproblem" data-target="#allproblem" data-toggle="modal">修改</a>';
-                // let c = '<a href="#" onclick="openDeleteModal()">删除</a>';
-                return a;
+                let a = '<a href="\'' + value + '\'" style="color: #00b3ee;" download="a.txt" id="fileUpload">下载</a>';
+                let b = '<button type="button" class="btn btn-success" onclick="fileLoad(\'' + value + '\')"  style="padding: 6px 20px;">下载</button>'
+
+                return b;
             }
         }],
         onLoadSuccess: function (e) {
@@ -348,4 +348,29 @@ function DeleteSchool() {
             poptip.close();
         }
     });
+}
+
+/**
+* @Description:   _文件下载
+* @Author:         yueben
+* @CreateDate:     2018/11/15 10:14
+*/
+function fileLoad(filePath) {
+    console.log(filePath)
+    $.ajax({
+        url: FILE_DOWN,
+        type: 'get',
+        data: JSON.s,
+        dataType: "json",
+        contentType: "application/json;charset=utf-8",
+        success: function (data) {
+            if (data.ok) {
+                poptip.alert("ok");
+                // poptip.alert("企业名称已存在");
+            } else {
+                poptip.alert("fail");
+
+            }
+        }
+    })
 }

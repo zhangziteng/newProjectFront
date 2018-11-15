@@ -1,3 +1,4 @@
+var FILE_UP = requestUrl + "api/generate/companyinfo/addCompanyInfo"; //文件下载
 //用户管理 刘志杰 2018-10-09
 const LOGIN_INFO =  JSON.parse(sessionStorage.getItem("user-info"));//登录的用户信息
 
