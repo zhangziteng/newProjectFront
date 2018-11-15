@@ -44,6 +44,7 @@ const POP_TIP = {
     matriculateSuccess:"录入成功", //by 刘志杰
     recruitSuccess: "招募成功", //by 宣文彬
     recruitExist: "已经进行招募", //by 宣文彬
+    passwordCheck: "新密码不能与原密码相同", //by 宣文彬
 
 
 
@@ -108,8 +109,8 @@ const AJAX_URL = {
      *@date 2018/10/22 21:13:59
      *@author zhangziteng
      */
-    updatePassword: requestJson ? '' : requestUrl + "api/generate/userinformation",
-    checkPassword: requestJson ? '' : requestUrl + 'api/generate/userinformation/checkOldPassword',
+    updatePassword: requestJson ? '' : requestUrl + "api/generate/userlogin/updatePassword",
+    checkPassword: requestJson ? '' : requestUrl + 'api/generate/userlogin/checkOldPassword',
     /**
      *@desc 招生计划数据
      *@date 2018/10/10 10:29:51
