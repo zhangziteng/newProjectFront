@@ -152,17 +152,25 @@
 //     });
 // });//end ready
 
+
 /**
  *@desc 页面初始化
  *@date 2018/11/15 14:06:41
  *@author zhangziteng
  */
 var SELECT_ADMINPLAN_URL = requestUrl + "api/generate/demandvolunteerinformation/selectDemandvolunteerinformation"; //url地址 分页查询
-
+var PUBLICH_NUMBER =  requestUrl + "api/generate/demandvolunteerinformation/selectPublishCount";//查询发布数量
+var COMPANY_NUMBER = requestUrl + "api/generate/companyinfo/queryByPage";//查询发布数量
+var PEOPLE_NUMBER = requestUrl + "api/generate/recruitpeople/selectRecruitpeople";//查询发布数量
+var a;
 $(function () {
-    tableInit(SELECT_ADMINPLAN_URL,"all");
+    // tableInit(SELECT_ADMINPLAN_URL,"all");
     tableTwoInit(SELECT_ADMINPLAN_URL,"all");
     tableThreeInit(AJAX_URL.selectMatriculate,'');
+    AJAX1();
+    AJAX2();
+    AJAX3();
+    AJAX4();
     // getSchAndMaj();
 });
 
@@ -278,7 +286,6 @@ function tableInit(tableUrl,cond) {
         }
     });
 }
-
 
 function tableTwoInit(tableUrl,cond) {
     $('#adminssions-table').bootstrapTable({
@@ -514,4 +521,140 @@ function tableThreeInit(tableUrl,cond) {
 function selectMatriculate() {
     $('#my-table-zhaomu').bootstrapTable("destroy");
     tableThreeInit(AJAX_URL.selectMatriculate,"condition");
+}
+
+
+var chart = Highcharts.chart('container', {
+
+    chart: {
+        type: 'column',
+    },
+    credits: {//去掉 highcharts.com
+        enabled:false
+    },
+    title: {
+        text: '综合数据统计表'
+    },
+    subtitle: {
+        text: '数据来源: 码农库'
+    },
+    xAxis: {
+        categories: ['需求创建', '发布', '招募', '企业'],
+        title: {
+            text: null
+        }
+    },
+    yAxis: {
+        min: 0,
+        max: 100,
+        title: {
+            text: '总数量 (单)',
+            align: 'high'
+        },
+        labels: {
+            overflow: 'justify'
+        }
+    },
+    tooltip: {
+        valueSuffix: ' 十'
+    },
+    plotOptions: {
+        bar: {
+            dataLabels: {
+                enabled: true,
+                allowOverlap: true // 允许数据标签重叠
+            }
+        }
+    },
+    legend: {
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'top',
+        x: -40,
+        y: 100,
+        floating: true,
+        borderWidth: 1,
+        backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
+        shadow: true
+    },
+    series: [{
+        name: '数量',
+        data: []
+    }]
+});
+var data1 = [];
+var data2 = [];
+var data3 = [];
+var data4 = [];
+
+
+function AJAX1() {
+    $.ajax({
+        type: 'post',
+        url: SELECT_ADMINPLAN_URL,
+        data: JSON.stringify({}),
+        dataType: 'json',
+        contentType: "application/json;charset=utf-8",
+        success: function (data) {
+            console.log("start")
+            console.log(data.data.count)
+            data1.push(["需求创建", data.data.count])
+
+            chart.series[0].setData(data1);
+        }
+
+    });
+}
+
+function AJAX2() {
+    $.ajax({
+        type: 'post',
+        url: PUBLICH_NUMBER,
+        data: JSON.stringify({}),
+        dataType: 'json',
+        contentType: "application/json;charset=utf-8",
+        success: function (data) {
+            console.log("--------------")
+            console.log(data.data)
+            data1.push(["发布", data.data])
+
+            chart.series[0].setData(data1);
+        }
+
+    });
+}
+
+function AJAX3() {
+    $.ajax({
+        type: 'post',
+        url: PEOPLE_NUMBER,
+        data: JSON.stringify({}),
+        dataType: 'json',
+        contentType: "application/json;charset=utf-8",
+        success: function (data) {
+            console.log("_+_++_+_+_+_+_+_+_+_+_=")
+            console.log(data)
+            data1.push(["招募", data.data.count])
+
+            chart.series[0].setData(data1);
+        }
+
+    });
+}
+
+function AJAX4() {
+    $.ajax({
+        type: 'post',
+        url: COMPANY_NUMBER,
+        data: JSON.stringify({}),
+        dataType: 'json',
+        contentType: "application/json;charset=utf-8",
+        success: function (data) {
+            console.log("++++++++++++++++++++")
+            console.log(data)
+            data1.push(["企业", data.data.count])
+            chart.series[0].setData(data1);
+        }
+
+    });
 }
