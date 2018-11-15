@@ -313,9 +313,13 @@ function DeleteDiscipline() {
                 dataType: "json",
                 contentType: "application/json;charset=utf-8",
                 success: function (data) {
-                    poptip.alert(POP_TIP.deleteSuccess);
-                    console.log(data);
-                    $('#discipline-table-all').bootstrapTable("refresh");
+                    if (data.ok) {
+                        poptip.alert(POP_TIP.deleteSuccess);
+                        console.log(data);
+                        $('#discipline-table-all').bootstrapTable("refresh");
+                    } else {
+                        poptip.alert(POP_TIP.deleteFail);
+                    }
                 }
             });
             poptip.close();
