@@ -2,12 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" href="https://static.jianshukeji.com/highcharts/images/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="../../lib/bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="../../lib/bootstrap-table/bootstrap-table.min.css">
     <link rel="stylesheet" href="../../css/common/common.css"/>
     <link rel="stylesheet" href="../../css/index/index.css">
     <link rel="stylesheet" href="../../css/index/reset.min.css">
     <link rel="stylesheet" href="../../css/index/style.css">
+
+    <script src="https://img.hcharts.cn/highcharts/highcharts.js"></script>
+    <script src="https://img.hcharts.cn/highcharts/modules/exporting.js"></script>
+    <script src="https://img.hcharts.cn/highcharts/modules/data.js"></script>
+    <script src="https://img.hcharts.cn/highcharts-plugins/highcharts-zh_CN.js"></script>
+    <!--<script src="https://img.hcharts.cn/highcharts/themes/dark-unica.js"></script>-->
+
     <title>EPC</title>
 </head>
 <body id="index-body">
@@ -25,12 +34,14 @@
     <div class="data-publish">
         <div class="data-head">
             <sapn class="data-head-img glyphicon glyphicon-send"></sapn>
-            <span class="data-title">需求发布</span>
-            <a class="data-more" href="#">查看更多 ></a>
+            <span class="data-title">数据统计</span>
+            <!--<a class="data-more" href="#">查看更多 ></a>-->
         </div>
         <hr>
-        <div class="data-content" id="plan-table">
-            <table id="plan-table-all" style="text-align: center;"></table>
+        <!--<div class="data-content" id="plan-table">-->
+            <!--<table id="plan-table-all" style="text-align: center;"></table>-->
+        <!--</div>-->
+        <div id="container" style="min-width:400px;height:400px">
         </div>
     </div>
     <div class="spare-query">
@@ -47,31 +58,32 @@
             <table id="my-table-zhaomu"></table>
         </div>
     </div>
-    <div class="tab-wrapper sbmo-excel">
-        <ul class="tab-menu">
-            <li class="active">MNK</li>
-            <li>EXCEL导入</li>
-            <a class="sbmo-more" href="#">查看更多 ></a>
-        </ul>
-        <div class="tab-content se-content">
-            <div class="bom-sbom">
-                <div class="bom-update">
-                    <div class="bom-img">
-                        <img src="../../images/updatebom.png">
-                    </div>
-                    <span class="bom-num">5</span>
-                    <span class="bom-text">更新</span>
-                </div>
-                <div class="bom-add">
-                    <div class="bom-img">
-                        <img src="../../images/addbom.png">
-                    </div>
-                    <span class="bom-num">10</span>
-                    <span class="bom-text">新增</span>
-                </div>
-            </div>
-        </div>
-    </div>
+    <input value="" id="display-none-1" style="display: none">
+    <!--<div class="tab-wrapper sbmo-excel">-->
+        <!--<ul class="tab-menu">-->
+            <!--<li class="active">MNK</li>-->
+            <!--<li>EXCEL导入</li>-->
+            <!--<a class="sbmo-more" href="#">查看更多 ></a>-->
+        <!--</ul>-->
+        <!--<div class="tab-content se-content">-->
+            <!--<div class="bom-sbom">-->
+                <!--<div class="bom-update">-->
+                    <!--<div class="bom-img">-->
+                        <!--<img src="../../images/updatebom.png">-->
+                    <!--</div>-->
+                    <!--<span class="bom-num">5</span>-->
+                    <!--<span class="bom-text">更新</span>-->
+                <!--</div>-->
+                <!--<div class="bom-add">-->
+                    <!--<div class="bom-img">-->
+                        <!--<img src="../../images/addbom.png">-->
+                    <!--</div>-->
+                    <!--<span class="bom-num">10</span>-->
+                    <!--<span class="bom-text">新增</span>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
 </div>
 <script src="../../lib/js/jquery.min.js"></script>
 <script src="../../../config/config.js"></script>
