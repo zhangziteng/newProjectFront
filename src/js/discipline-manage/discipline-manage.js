@@ -100,19 +100,20 @@ function tableInit(tableUrl, cond) {
             field: 'recruitQuestion',
             title: '招募要求',
             width: 300
-        }, {
-            field: 'majorname',
-            title: '相关文档',
-            width: 100,
-            align: 'center',
-            valign: 'middle',
-            formatter: function (value, row, index) {
-                //通过formatter可以自定义列显示的内容
-                //value：当前field的值，即id
-                //row：当前行的数据
-                let a = '<a style="color: #00b3ee;" onclick="openContinueModal()">下载</a>';
-                return a;
-            }
+
+        // }, {
+        //     field: 'majorname',
+        //     title: '相关文档',
+        //     width: 100,
+        //     align: 'center',
+        //     valign: 'middle',
+        //     formatter: function (value, row, index) {
+        //         //通过formatter可以自定义列显示的内容
+        //         //value：当前field的值，即id
+        //         //row：当前行的数据
+        //         let a = '<a style="color: #00b3ee;" onclick="openContinueModal()">下载</a>';
+        //         return a;
+        //     }
         }, {
             field: 'createTime',
             title: '创建时间',
