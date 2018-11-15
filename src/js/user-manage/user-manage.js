@@ -88,6 +88,11 @@ function fileup() {
         processData: false,
         contentType: false,
         success: function (data) {
+            if (data.ok) {
+                poptip.alert("上传成功！");
+            } else {
+                poptip.alert("上传失败！");
+            }
         }
     })
 }
