@@ -82,13 +82,17 @@ function fileup() {
     let formData = new FormData();
     formData.append("file",$("#fileload")[0].files[0]);
     $.ajax({
-        type:"POST",
+        type:requestJson ? 'get' : 'post',
         url:AJAX_URL.insertUserManage + "_fileup",
         data:formData,
         processData: false,
         contentType: false,
         success: function (data) {
-            alert(data);
+            if (data.ok) {
+                poptip.alert("上传成功！");
+            } else {
+                poptip.alert("上传失败！");
+            }
         }
     })
 }
@@ -107,9 +111,11 @@ function saveinfomation() {
     })
     console.log(html.charAt(html.length - 1));
     var str = html.substring(0, html.length - 1);
-    console.log(str);
-
+    // console.log(str);
     $("#basicinfo-input-idcardnumber").attr("disabled", true);
+    $("#basicinfo-input-age").attr("disabled", true);
+    $("#add-input-introduction").attr("disabled", true);
+    $("#basicinfo-input-phonenumber").attr("disabled", true);
     $.ajax({
         url: AJAX_URL.insertUserManage,
         type: requestJson ? 'get' : 'post',

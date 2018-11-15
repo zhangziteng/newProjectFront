@@ -38,7 +38,7 @@ function tableInit(tableUrl,cond) {
         pagination: true,                   //是否显示分页（*）
         // paginationHAlign:'center',       //分页水平位置
         paginationDetailHAlign:"right",      //分页详细信息位置
-        sortName:'BirthDate',                //排序的数据字段名
+        // sortName:'BirthDate',                //排序的数据字段名
         sortable: true,                     //是否启用排序
         sortOrder: "desc",                   //排序方式
         sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
@@ -116,9 +116,7 @@ function tableInit(tableUrl,cond) {
                 //通过formatter可以自定义列显示的内容
                 //value：当前field的值，即id
                 //row：当前行的数据;
-
-                let b = '<button type="button" class="btn btn-success" onclick="fileLoad(\'' + value + '\')"  style="padding: 6px 20px;">下载</button>'
-
+                let b = '<button type="button" class="btn btn-success" onclick="fileLoad(\'' + value + '\')"  style="padding: 3px 15px;">下载</button>'
                 return b;
             }
         }],
