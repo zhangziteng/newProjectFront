@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-
-
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <link rel="stylesheet" href="../../lib/bootstrap/css/bootstrap.css">
@@ -35,9 +32,9 @@
                     <input type="text" class="from-controller" name="SSK" id="select-input-projectName" placeholder="请输入项目名称">
                 </div>
                 <div class="search-from form-group">
-                    <label>开发类型：</label>
+                    <label>项目类型：</label>
                     <select class="from-controller" id="select-input-projectType" style="width: 180px;" >
-                        <option value="">请选择开发类型</option>
+                        <option value="">请选择项目类型</option>
                         <option value="Web网站">Web网站</option>
                         <option value="APP开发">APP开发</option>
                         <option value="微信公众号">微信公众号</option>
@@ -57,7 +54,7 @@
     <!--2018年10月10日11:15:31 表格新增修改删除按钮-->
     <div class="btn-left">
         <button type="button" class="btn btn-primary" onclick="AddPlanModal()" data-target="#add-plan-modal" data-toggle="modal" style="padding: 6px 20px;">创建</button>
-        <button type="button" class="btn btn-success" onclick="AlterPlanModal()" style="padding: 6px 20px;">修改</button>
+        <!--<button type="button" class="btn btn-success" onclick="AlterPlanModal()" style="padding: 6px 20px;">修改</button>-->
         <button type="button" class="btn btn-danger" onclick="DeletePlan()" style="padding: 6px 20px;">删除</button>
 
         <!--<div class="select-creatYear">-->
@@ -93,7 +90,7 @@
                         <div class="form-group">
                             <div class="col-sm-12 form-inline">
                                 <label for="add-update-select-SchName" class="col-sm-4 control-label">企业名称：</label>
-                                <select class="from-controller" id="add-update-select-SchName" style="width: 200px;" onchange="schNameByPro(this.value)">
+                                <select class="from-controller" id="add-update-select-SchName" style="width: 200px;">
                                 </select>
                                 <br><span id="show-span-schNameIsNull" class="IsNull" style="color: red;"></span>
                             </div>
@@ -112,7 +109,7 @@
                                 <!--<select class="from-controller" id="add-update-select-ProName" style="width: 200px;" onchange="proNameBySch(this.value)">-->
                                 <!--</select>-->
                                 <select class="from-controller" id="add-update-data" style="width: 200px;" >
-                                    <option selected>请选择交付周期</option>
+                                    <option value="">请选择交付周期</option>
                                     <option value="3天">3天</option>
                                     <option value="7天">7天</option>
                                     <option value="15天">15天</option>

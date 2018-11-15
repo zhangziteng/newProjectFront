@@ -4,6 +4,7 @@
  *@author zhangziteng
  */
 var userinfo = JSON.parse(sessionStorage.getItem("user-info"));
+console.log(userinfo);
 /**
  *@desc 刘志杰初始化
  *@date 2018/10/26 14:17:58
@@ -29,16 +30,18 @@ $(function () {
  */
 $("#update-button-ok").click(function () {
     console.log("11111");
-    // var oldpassword = $("#update-input-oldpassword").val();
+    if ($("#update-input-oldpassword").val() == $("#update-input-newpassword").val()) {
+        poptip.alert(POP_TIP.passwordCheck);
+    }
     var newpassword = $("#update-input-newpassword").val();
-    var userKey = '1';
+    var userKey = userinfo.data.data[0].userKey;
     $.ajax({
         url: AJAX_URL.updatePassword,
-        type: requestJson ? 'get' : 'put',
+        type: requestJson ? 'get' : 'post',
         data: JSON.stringify({
             // "": oldpassword,
-            "userkey": userKey,
-            "userpassword": newpassword
+            "userKey": userKey,
+            "password": newpassword
         }),
         dataType: "json",
         contentType: "application/json;charset=utf-8",
@@ -47,6 +50,7 @@ $("#update-button-ok").click(function () {
                 // alert(data.message);
                 // window.location.href = '../default/default.html';
                 poptip.alert(POP_TIP.updateSuccess);
+                window.location.href = "../../pages/login/login.html"
             } else {
                 poptip.alert(POP_TIP.updateFail);
             }
@@ -63,13 +67,14 @@ $("#update-button-ok").click(function () {
 $("#update-input-oldpassword").blur(function () {
     console.log("1111");
     var password = $("#update-input-oldpassword").val();
-    var userkey = "1";
+    var userkey = userinfo.data.data[0].userKey;
+    console.log(userkey);
     $.ajax({
         url: AJAX_URL.checkPassword,
         type: requestJson ? 'get' : 'post',
         data: JSON.stringify({
-            "userkey": userkey,
-            "userpassword": password
+            "userKey": userkey,
+            "password": password
         }),
         dataType: "json",
         contentType: "application/json;charset=utf-8",
@@ -78,7 +83,7 @@ $("#update-input-oldpassword").blur(function () {
             if (data.ok) {
                 // alert(data.message);
                 // window.location.href = '../default/default.html';
-                poptip.alert(POP_TIP.dataLoadsuccess);
+                // poptip.alert(POP_TIP.dataLoadsuccess);
             } else {
                 poptip.alert(POP_TIP.dataLoadfail);
             }

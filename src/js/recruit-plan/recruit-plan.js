@@ -141,7 +141,7 @@ function tableInit(tableUrl,cond) {
             width:200
         },{
             field: 'projectType',
-            title: '项目行业',
+            title: '项目类型',
             width:200
         }, {
             field: 'projectBudget',
@@ -344,33 +344,33 @@ function tiJiao() {
     let isNull = false;
     //判断输入框的值是否空
     if ($("#add-update-select-SchName").val() == '' || $("#add-update-select-SchName").val() == null || $("#add-update-select-SchName").val() == '0') {
-        $("#show-span-schNameIsNull").text("请选择学校！");
+        $("#show-span-schNameIsNull").text("请选择企业名称！");
         isNull = true;
     } else {
         $("#show-span-schNameIsNull").css('display','none');
     }
     if ($("#add-update-select-MajName").val() == '' || $("#add-update-select-MajName").val() == null) {
-        $("#show-span-majNameIsNull").text("请选择专业！");
+        $("#show-span-majNameIsNull").text("请选择项目名称！");
         isNull = true;
     } else {
         $("#show-span-majNameIsNull").css('display','none');
     }
-    // if ($("#add-update-select-ProName").val() == '' || $("#add-update-select-ProName").val() == null || $("#add-update-select-ProName").val() == '0') {
-    //     $("#show-span-proNameIsNull").text("请选择省份！");
-    //     isNull = true;
-    // } else {
-    //     $("#show-span-proNameIsNull").css('display','none');
-    // }
+    if ($("#add-update-data").val() == '' || $("#add-update-data").val() == null || $("#add-update-data").val() == '0') {
+        $("#show-span-proNameIsNull").text("请选择交付日期！");
+        isNull = true;
+    } else {
+        $("#show-span-proNameIsNull").css('display','none');
+    }
     // if ($("#add-update-input-PlanNum").val() == '' || $("#add-update-input-PlanNum").val() == null) {
     //     $("#show-span-planNumIsNull").text("请输入招生人数！");
     //     isNull = true;
     // } else {
     //     $("#show-span-planNumIsNull").css('display','none');
     // }
-    //当某一项为空时不进行提交
-    // if (isNull) {
-    //     return 0;
-    // }
+    // 当某一项为空时不进行提交
+    if (isNull) {
+        return 0;
+    }
 
     //判断为修改操作还是新增操作
     let tit = $("#plan-modal-title").text();
@@ -485,18 +485,19 @@ function DeletePlan() {
         poptip.alert("请选择一条数据！");
         return;
     } else {
-        console.log("deleteRow:" + checkboxTable[0].adminssionskey);
-        let adminssionskey = checkboxTable[0].adminssionskey;
         poptip.confirm({
             content: POP_TIP.confirm,
             yes: function () {
                 console.log('confirm-yes');
                 //删除操作
                 $.ajax({
-                    url: DELETE_ADMINPLAN_URL + '/' + adminssionskey,
+                    url: DELETE_ADMINPLAN_URL,
                     type: 'post',
-                    // dataType: "json",
-                    // contentType: "application/json;charset=utf-8",
+                    data: JSON.stringify({
+                        "demandKey": checkboxTable[0].demandKey,
+                    }),
+                    dataType: "json",
+                    contentType: "application/json;charset=utf-8",
                     success: function (data) {
                         if (data.ok) {
                             poptip.alert(POP_TIP.deleteSuccess);
