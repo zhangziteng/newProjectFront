@@ -102,7 +102,7 @@ function saveinfomation() {
             companyNumber: $("#basicinfo-input-idcardnumber").val(),
             companyBriefintroduction: $("#add-input-introduction").val(),
             phone: $("#basicinfo-input-phonenumber").val(),
-            provinceName: $("#basicinfo-radio input[name='basicinfo-radio-sex']:checked").val()
+            developerType: $("#basicinfo-radio input[name='basicinfo-radio-sex']:checked").val()
         }),
         dataType: "json",
         contentType: "application/json;charset=utf-8",
