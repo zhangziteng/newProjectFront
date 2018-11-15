@@ -116,7 +116,7 @@ function tableInit(tableUrl,cond) {
                 //通过formatter可以自定义列显示的内容
                 //value：当前field的值，即id
                 //row：当前行的数据;
-                let a = '<a href="\'' + value + '\'" style="color: #00b3ee;" download="a.txt" id="fileUpload">下载</a>';
+                let a = '<a href="' + value + '" style="color: #00b3ee;" download="a.txt" id="fileUpload">下载</a>';
                 let b = '<button type="button" class="btn btn-success" onclick="fileLoad(\'' + value + '\')"  style="padding: 6px 20px;">下载</button>'
 
                 return b;
@@ -355,22 +355,8 @@ function DeleteSchool() {
 * @Author:         yueben
 * @CreateDate:     2018/11/15 10:14
 */
-function fileLoad(filePath) {
-    console.log(filePath)
-    $.ajax({
-        url: FILE_DOWN,
-        type: 'get',
-        data: JSON.s,
-        dataType: "json",
-        contentType: "application/json;charset=utf-8",
-        success: function (data) {
-            if (data.ok) {
-                poptip.alert("ok");
-                // poptip.alert("企业名称已存在");
-            } else {
-                poptip.alert("fail");
+function fileLoad(path) {
+    console.log(path)
+    window.open(FILE_DOWN + "?filePath=" + path);
 
-            }
-        }
-    })
 }

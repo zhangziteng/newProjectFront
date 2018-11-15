@@ -115,17 +115,26 @@
                             </div>
                         </div>
                     <div class="form-group">
-                        <label for=""
-                               class="col-sm-3 control-label">相关文档</label>
-                        <div class="col-sm-5">
-                            <!--<input type="text" class="form-control need-check"-->
-                                   <!--regex="number"-->
-                                   <!--maxlength="11" id=""-->
-                                   <!--placeholder="请输入手机号">-->
-                            <input id="input-id" type="file" class="file" data-preview-file-type="text" >
-                            <span class="alert-warn"></span>
-                        </div>
+                        <label for="fileload"
+                               class="col-sm-3 control-label required">相关文档</label>
+                            <div class="col-sm-5">
+                            <input class="form-control need-check not-null" type="file" name="file" style="padding: 6px 20px;" id="fileload"/><br/><br/>
+                            </div>
+                            <input class="btn btn-info save-check" type="button" value="上传" onclick="fileup()" />
                     </div>
+                    <!--<div class="form-group">-->
+                        <!--<label for=""-->
+                               <!--class="col-sm-3 control-label">相关文档</label>-->
+                        <!--<div class="col-sm-5">-->
+                            <!--&lt;!&ndash;<input type="text" class="form-control need-check"&ndash;&gt;-->
+                                   <!--&lt;!&ndash;regex="number"&ndash;&gt;-->
+                                   <!--&lt;!&ndash;maxlength="11" id=""&ndash;&gt;-->
+                                   <!--&lt;!&ndash;placeholder="请输入手机号">&ndash;&gt;-->
+                            <!--<input id="input-id" type="file" class="file" data-preview-file-type="text" >-->
+                            <!--<span class="alert-warn"></span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
                 </div>
             </div>
             <div class="form-btn">

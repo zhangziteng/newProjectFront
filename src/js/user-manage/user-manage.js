@@ -44,38 +44,54 @@ $(function () {
         })
     }
 });
-/**
- *@desc 上传文件
- *@date 2018/11/08 14:17:50
- *@author zhangziteng
- */
-$("#input-id").fileinput({
-    language: 'zh', //设置语言
-    uploadUrl: AJAX_URL.selectUserManag, //上传的地址
-    // allowedFileExtensions: ['docx', 'gif', 'png'],//接收的文件后缀
-    //uploadExtraData:{"id": 1, "fileName":'123.mp3'},
-    uploadAsync: false, //默认异步上传
-    showUpload: true, //是否显示上传按钮
-    showRemove: true, //显示移除按钮
-    showPreview: false, //是否显示预览
-    showCaption: false,//是否显示标题
-    browseClass: "btn btn-primary", //按钮样式    
-    dropZoneEnabled: false,//是否显示拖拽区域
-    //minImageWidth: 50, //图片的最小宽度
-    //minImageHeight: 50,//图片的最小高度
-    //maxImageWidth: 1000,//图片的最大宽度
-    //maxImageHeight: 1000,//图片的最大高度
-    maxFileSize: 1024,//单位为kb，如果为0表示不限制文件大小
-    //minFileCount: 0,
-    maxFileCount: 2, //表示允许同时上传的最大文件个数
-    // validateInitialCount:true,
-    previewFileIcon: "<iclass='glyphicon glyphicon-king'></i>",
-    msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！"
-}).on("fileuploaded", function (event, data, previewId, index) {
-    console.log("111");
+// /**
+//  *@desc 上传文件
+//  *@date 2018/11/08 14:17:50
+//  *@author zhangziteng
+//  */
+// $("#input-id").fileinput({
+//     language: 'zh', //设置语言
+//     uploadUrl: AJAX_URL.insertUserManage, //上传的地址
+//     // allowedFileExtensions: ['docx', 'gif', 'png'],//接收的文件后缀
+//     //uploadExtraData:{"id": 1, "fileName":'123.mp3'},
+//     uploadAsync: false, //默认异步上传
+//     showUpload: true, //是否显示上传按钮
+//     showRemove: true, //显示移除按钮
+//     showPreview: false, //是否显示预览
+//     showCaption: false,//是否显示标题
+//     browseClass: "btn btn-primary", //按钮样式    
+//     dropZoneEnabled: false,//是否显示拖拽区域
+//     //minImageWidth: 50, //图片的最小宽度
+//     //minImageHeight: 50,//图片的最小高度
+//     //maxImageWidth: 1000,//图片的最大宽度
+//     //maxImageHeight: 1000,//图片的最大高度
+//     maxFileSize: 1024,//单位为kb，如果为0表示不限制文件大小
+//     //minFileCount: 0,
+//     maxFileCount: 2, //表示允许同时上传的最大文件个数
+//     // validateInitialCount:true,
+//     previewFileIcon: "<iclass='glyphicon glyphicon-king'></i>",
+//     msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！"
+// }).on("fileuploaded", function (event, data, previewId, index) {
+//     console.log("111");
+//
+//
+// });
 
 
-});
+function fileup() {
+    let formData = new FormData();
+    formData.append("file",$("#fileload")[0].files[0]);
+    $.ajax({
+        type:"POST",
+        url:AJAX_URL.insertUserManage + "_fileup",
+        data:formData,
+        processData: false,
+        contentType: false,
+        success: function (data) {
+            alert(data);
+        }
+    })
+}
 
 /**
  *@desc 保存按钮
